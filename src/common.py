@@ -16,10 +16,19 @@ def norm_name(value: str) -> str:
     return re.sub(r"[^A-Z0-9]","",value)
 
 def parse_date(value: str):
-    for fmt in ("%Y-%m-%d","%d/%m/%Y","%d %b %Y","%d-%m-%Y"):
-        try: return datetime.strptime(value.strip(),fmt).date()
-        except ValueError: pass
-    raise ValueError(f"Unsupported date format: {value!r}")
+    if not value or not str(value).strip():
+        return None
+    val = str(value).strip().split("T")[0].split(" ")[0]
+    for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d %b %Y", "%d-%m-%Y", "%Y/%m/%d", "%m/%d/%Y"):
+        try:
+            return datetime.strptime(val, fmt).date()
+        except ValueError:
+            pass
+    return None
 
-def date_distance(a: str,b: str) -> int:
-    return abs((parse_date(a)-parse_date(b)).days)
+def date_distance(a: str, b: str) -> int:
+    da = parse_date(a)
+    db = parse_date(b)
+    if not da or not db:
+        return 999
+    return abs((da - db).days)

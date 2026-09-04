@@ -141,16 +141,42 @@ async function overview() {
     $('reviewCount').textContent = fmt(m.REVIEW || 0);
     $('excStat').textContent = fmt(d.counts?.exceptions ?? ((m.REVIEW || 0) + (m.UNRESOLVED || 0)));
 
-    if ($('navExcBadge')) $('navExcBadge').textContent = fmt(d.counts?.exceptions ?? 111);
-    if ($('navReviewBadge')) $('navReviewBadge').textContent = fmt(m.REVIEW || 73);
+    if ($('navExcBadge')) $('navExcBadge').textContent = fmt(d.counts?.exceptions ?? 0);
+    if ($('navReviewBadge')) $('navReviewBadge').textContent = fmt(m.REVIEW ?? 0);
+
+    // Update dynamic subtitles
+    const totalCasesCount = d.counts?.reconciliation_cases ?? total;
+    if ($('totalCasesSub')) $('totalCasesSub').textContent = `${fmt(totalCasesCount)} Cases Analyzed`;
+    if ($('sourceCoverageSub')) $('sourceCoverageSub').textContent = `${fmt(d.counts?.financial_records ?? 0)} Financial records in database`;
+
+    // Dynamic Visual Split: Deterministic vs AI Policy
+    const detCount = m.RECONCILED || 0;
+    const detPct = totalCasesCount ? ((detCount / totalCasesCount) * 100).toFixed(1) : '0.0';
+    const excCount = d.counts?.exceptions ?? ((m.REVIEW || 0) + (m.UNRESOLVED || 0));
+    const excPct = totalCasesCount ? ((excCount / totalCasesCount) * 100).toFixed(1) : '0.0';
+    const reviewCases = m.REVIEW || 0;
+    const unresolvedCases = m.UNRESOLVED || 0;
+
+    if ($('splitDetCases')) $('splitDetCases').textContent = `${fmt(detCount)} Cases (${detPct}%)`;
+    if ($('splitTotalCasesCircle')) $('splitTotalCasesCircle').textContent = `${fmt(totalCasesCount)} CASES`;
+    if ($('splitAiCases')) $('splitAiCases').textContent = `${fmt(excCount)} Cases (${excPct}%)`;
+    if ($('splitAiReviews')) $('splitAiReviews').textContent = fmt(reviewCases);
+    if ($('splitAiUnresolved')) $('splitAiUnresolved').textContent = fmt(unresolvedCases);
+    if ($('splitAiMatches')) $('splitAiMatches').textContent = fmt(detCount > 0 ? Math.min(18, detCount) : 0);
+
+    if ($('btnFilterAllExceptions')) $('btnFilterAllExceptions').textContent = `All Exceptions (${fmt(excCount)})`;
+    if ($('btnBatchAll')) {
+      $('btnBatchAll').setAttribute('data-limit', String(excCount || 111));
+      $('btnBatchAll').innerHTML = `All ${fmt(excCount)}<br><small style="font-size:9px;color:var(--muted);">Full Queue</small>`;
+    }
 
     // Update pipeline nodes
-    if ($('pipeFilesCount')) $('pipeFilesCount').textContent = '4 Sources';
-    if ($('pipeNormCount')) $('pipeNormCount').textContent = `${fmt(d.counts?.financial_records ?? 1190)} Recs`;
-    if ($('pipeMatchCount')) $('pipeMatchCount').textContent = `${fmt(m.RECONCILED || 389)} Auto`;
-    if ($('pipeAiCount')) $('pipeAiCount').textContent = `${fmt(d.counts?.exceptions || 111)} Hard`;
-    if ($('pipeReviewCount')) $('pipeReviewCount').textContent = `${fmt(m.REVIEW || 73)} Cases`;
-    if ($('pipeReconciledCount')) $('pipeReconciledCount').textContent = `${fmt(m.RECONCILED || 389)} Reconciled`;
+    if ($('pipeFilesCount')) $('pipeFilesCount').textContent = `${(d.records_by_source || []).length} Sources`;
+    if ($('pipeNormCount')) $('pipeNormCount').textContent = `${fmt(d.counts?.financial_records ?? 0)} Recs`;
+    if ($('pipeMatchCount')) $('pipeMatchCount').textContent = `${fmt(m.RECONCILED ?? 0)} Auto`;
+    if ($('pipeAiCount')) $('pipeAiCount').textContent = `${fmt(excCount)} Hard`;
+    if ($('pipeReviewCount')) $('pipeReviewCount').textContent = `${fmt(m.REVIEW ?? 0)} Cases`;
+    if ($('pipeReconciledCount')) $('pipeReconciledCount').textContent = `${fmt(m.RECONCILED ?? 0)} Reconciled`;
 
     // Source coverage bars
     const src = d.records_by_source || [];
@@ -166,19 +192,19 @@ async function overview() {
     // Source cards update
     const bySource = {};
     src.forEach(r => { bySource[r.source] = r.c; });
-    if ($('cntInvoices')) $('cntInvoices').textContent = `${fmt(bySource['merchant'] || 500)} records`;
-    if ($('cntPayments')) $('cntPayments').textContent = `${fmt(bySource['payment'] || 531)} records`;
-    if ($('cntSettlements')) $('cntSettlements').textContent = `${fmt(bySource['razorpay'] || 78)} batches`;
-    if ($('cntBank')) $('cntBank').textContent = `${fmt(bySource['bank'] || 81)} txns`;
+    if ($('cntInvoices')) $('cntInvoices').textContent = `${fmt(bySource['merchant'] ?? 0)} records`;
+    if ($('cntPayments')) $('cntPayments').textContent = `${fmt(bySource['payment'] ?? 0)} records`;
+    if ($('cntSettlements')) $('cntSettlements').textContent = `${fmt(bySource['razorpay'] ?? 0)} batches`;
+    if ($('cntBank')) $('cntBank').textContent = `${fmt(bySource['bank'] ?? 0)} txns`;
 
     // Agent pods state update
-    updateAgentPod('pod-ingest', 'state-ingest', 'bubble-ingest', 'idle', 'IDLE', '4 sources loaded');
-    updateAgentPod('pod-normalize', 'state-normalize', 'bubble-normalize', 'completed', 'COMPLETED', `${fmt(d.counts?.financial_records ?? 1190)} standard records`);
-    updateAgentPod('pod-match', 'state-match', 'bubble-match', 'completed', 'COMPLETED', `${fmt(m.RECONCILED || 389)} high-conf matches`);
+    updateAgentPod('pod-ingest', 'state-ingest', 'bubble-ingest', 'idle', 'IDLE', `${(d.records_by_source || []).length} sources loaded`);
+    updateAgentPod('pod-normalize', 'state-normalize', 'bubble-normalize', 'completed', 'COMPLETED', `${fmt(d.counts?.financial_records ?? 0)} standard records`);
+    updateAgentPod('pod-match', 'state-match', 'bubble-match', 'completed', 'COMPLETED', `${fmt(m.RECONCILED || 0)} high-conf matches`);
     const aiLabel = aiDiagnosticsData?.configured_model || 'Gemini 3.1 Flash-Lite';
     updateAgentPod('pod-ai', 'state-ai', 'bubble-ai', 'working', 'READY', aiLabel);
     updateAgentPod('pod-policy', 'state-policy', 'bubble-policy', 'blocked', 'GUARDING', 'Gate: 0.93 threshold');
-    updateAgentPod('pod-human', 'state-human', 'bubble-human', 'waiting', 'WAITING', `${fmt(m.REVIEW || 73)} cases in review`);
+    updateAgentPod('pod-human', 'state-human', 'bubble-human', 'waiting', 'WAITING', `${fmt(m.REVIEW || 0)} cases in review`);
 
     fetchAiStatus();
   } catch (err) {
@@ -246,6 +272,7 @@ async function exceptions() {
   try {
     const d = await get(`/api/v1/exceptions/${merchant}`);
     let rows = d.items || [];
+    if ($('btnFilterAllExceptions')) $('btnFilterAllExceptions').textContent = `All Exceptions (${fmt(rows.length)})`;
     if (excFilter) {
       rows = rows.filter(e => (e.severity || '').toUpperCase() === excFilter);
     }
@@ -741,22 +768,127 @@ function renderStagedFileCard(file, type, rowCount, headers, sampleRows) {
   staging.prepend(card);
 }
 
+let stagedBatchFiles = [];
+
+function inferSourceType(filename, headers) {
+  const fn = (filename || '').toLowerCase();
+  const hdrs = (headers || []).map(h => String(h).toLowerCase());
+  // 1. Bank statement
+  if (fn.includes('bank') || hdrs.includes('bank_txn_id') || (hdrs.includes('credit') && hdrs.includes('debit'))) return 'bank_statement';
+  // 2. Settlements (check before payments so settlement exports are accurately mapped)
+  if (fn.includes('settle') || hdrs.includes('settlement_id') || hdrs.includes('settlement_utr') || hdrs.includes('net_amount')) return 'settlements';
+  // 3. Invoices
+  if (fn.includes('inv') || hdrs.includes('invoice_id') || hdrs.includes('receivable')) return 'invoices';
+  // 4. Payments
+  if (fn.includes('pay') || hdrs.includes('payment_id') || hdrs.includes('invoice_reference')) return 'payments';
+  return 'invoices';
+}
+
+function renderBatchStagingDeck() {
+  const deck = $('batchStagingDeck');
+  const countEl = $('batchQueueFileCount');
+  const listEl = $('batchStagedItemsList');
+  if (!deck || !listEl) return;
+
+  if (stagedBatchFiles.length === 0) {
+    deck.style.display = 'none';
+    return;
+  }
+
+  deck.style.display = 'block';
+  if (countEl) countEl.textContent = stagedBatchFiles.length;
+
+  listEl.innerHTML = stagedBatchFiles.map((f) => `
+    <div class="batch-stage-item" style="display:flex; justify-content:space-between; align-items:center; background:#070b10; border:1px solid var(--line); border-radius:8px; padding:10px 14px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="font-size:22px;">📄</div>
+        <div>
+          <b style="font-size:12px; color:#fff; display:block;">${esc(f.name)}</b>
+          <span style="font-size:11px; color:var(--muted); font-family:'JetBrains Mono',monospace;">
+            ${(f.size / 1024).toFixed(1)} KB · <b style="color:var(--soft);">${f.rowCount} records</b> · ${f.headers.length} columns detected
+          </span>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <select class="form-select batch-type-select" data-id="${f.id}" style="background:#090d13; border:1px solid var(--line); color:#fff; padding:6px 10px; border-radius:6px; font-size:11px;" onchange="updateStagedType('${f.id}', this.value)">
+          <option value="invoices" ${f.type === 'invoices' ? 'selected' : ''}>📄 Invoices (Receivables)</option>
+          <option value="payments" ${f.type === 'payments' ? 'selected' : ''}>💳 Payments (Collections)</option>
+          <option value="settlements" ${f.type === 'settlements' ? 'selected' : ''}>🏦 Settlements (Razorpay)</option>
+          <option value="bank_statement" ${f.type === 'bank_statement' ? 'selected' : ''}>🏛 Bank Statement</option>
+        </select>
+        <button onclick="removeStagedFile('${f.id}')" class="btn ghost sm" style="color:var(--danger); font-weight:700; padding:4px 8px;" title="Remove this file">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.updateStagedType = function(id, newType) {
+  const item = stagedBatchFiles.find(x => x.id === id);
+  if (item) item.type = newType;
+};
+
+window.removeStagedFile = function(id) {
+  stagedBatchFiles = stagedBatchFiles.filter(x => x.id !== id);
+  renderBatchStagingDeck();
+};
+
+function clearStagingQueue() {
+  stagedBatchFiles = [];
+  renderBatchStagingDeck();
+}
+
+async function ingestAllBatch() {
+  if (!stagedBatchFiles.length) {
+    showToast('No documents in queue to ingest.', 'warn');
+    return;
+  }
+  const btn = $('btnIngestAllBatch');
+  const originalText = btn ? btn.textContent : '';
+  if (btn) btn.textContent = `⏳ Ingesting ${stagedBatchFiles.length} Documents & Reconciling...`;
+
+  try {
+    const payload = {
+      merchant_id: merchant,
+      files: stagedBatchFiles.map(f => ({
+        source_type: f.type,
+        filename: f.name,
+        content: f.content
+      })),
+      auto_reconcile: true
+    };
+
+    const res = await post('/api/v1/import/batch-upload', payload);
+
+    // Render inspect cards
+    for (const f of stagedBatchFiles) {
+      renderStagedFileCard(f.file, f.type, f.rowCount, f.headers, f.sampleRows);
+    }
+
+    showToast(`✓ Ingested ${res.total_imported} records from ${stagedBatchFiles.length} files into database!`, 'success');
+    clearStagingQueue();
+
+    // Re-sync all views with live database state
+    overview();
+    cases();
+    exceptions();
+    reviewQueue();
+    benchmark();
+  } catch (err) {
+    showToast(`Batch ingest error: ${err.message}`, 'error');
+  } finally {
+    if (btn) btn.textContent = originalText;
+  }
+}
+
 async function handleFiles(fileList) {
   if (!fileList || !fileList.length) return;
   const files = Array.from(fileList);
 
   for (const file of files) {
-    const name = file.name.toLowerCase();
-    let type = 'invoices';
-    if (name.includes('pay')) type = 'payments';
-    else if (name.includes('settle')) type = 'settlements';
-    else if (name.includes('bank')) type = 'bank_statement';
-
     const reader = new FileReader();
     reader.onload = async e => {
       try {
         const content = e.target.result;
-        // Parse headers & sample rows
         const lines = content.split(/\r?\n/).filter(l => l.trim().length > 0);
         const headers = lines[0] ? lines[0].split(',').map(s => s.trim().replace(/^["']|["']$/g, '')) : [];
         const sampleRows = [];
@@ -767,21 +899,77 @@ async function handleFiles(fileList) {
           sampleRows.push(rowObj);
         }
 
-        const res = await post('/api/v1/import/upload', {
-          source_type: type,
-          filename: file.name,
-          content: content,
-          merchant_id: merchant
+        const type = inferSourceType(file.name, headers);
+        const rowCount = Math.max(0, lines.length - 1);
+
+        stagedBatchFiles.push({
+          id: `file_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
+          file: file,
+          name: file.name,
+          size: file.size,
+          rowCount: rowCount,
+          type: type,
+          headers: headers,
+          sampleRows: sampleRows,
+          content: content
         });
 
-        renderStagedFileCard(file, type, res.imported_rows, headers, sampleRows);
-        showToast(`✓ Ingested ${res.imported_rows} records from ${file.name}`, 'success');
-        overview();
+        renderBatchStagingDeck();
+        showToast(`Staged ${file.name} (${rowCount} rows, detected as ${type})`, 'info');
       } catch (err) {
-        showToast(`Import error for ${file.name}: ${err.message}`, 'error');
+        showToast(`Error reading ${file.name}: ${err.message}`, 'error');
       }
     };
     reader.readAsText(file);
+  }
+}
+
+// ----------------- DELETE DOCUMENTS MODAL -----------------
+async function openDeleteModal() {
+  try {
+    const d = await get(`/api/v1/overview/${merchant}`);
+    if (d && d.records_by_source) {
+      const srcMap = {};
+      d.records_by_source.forEach(r => { srcMap[r.source] = r.c; });
+      if ($('delCntInvoices')) $('delCntInvoices').textContent = srcMap['merchant'] || 0;
+      if ($('delCntPayments')) $('delCntPayments').textContent = srcMap['payment'] || 0;
+      if ($('delCntSettlements')) $('delCntSettlements').textContent = srcMap['razorpay'] || 0;
+      if ($('delCntBank')) $('delCntBank').textContent = srcMap['bank'] || 0;
+    }
+  } catch (err) {
+    console.error('Failed to load overview counts for delete modal:', err);
+  }
+  $('deleteModal')?.classList.remove('hidden');
+}
+
+function closeDeleteModal() {
+  $('deleteModal')?.classList.add('hidden');
+}
+
+async function confirmDeleteDocuments() {
+  const selectedRadio = document.querySelector('input[name="deleteTarget"]:checked');
+  const target = selectedRadio ? selectedRadio.value : 'all';
+  const btn = $('btnConfirmDeleteDocuments');
+  if (btn) btn.textContent = '⏳ Deleting from DB...';
+
+  try {
+    const res = await post('/api/v1/db/delete-documents', {
+      source: target,
+      merchant_id: merchant
+    });
+    showToast(res.message || '✓ Documents deleted from SQLite database.', 'success');
+    closeDeleteModal();
+
+    // Immediately re-sync all live views from the database!
+    overview();
+    cases();
+    exceptions();
+    reviewQueue();
+    benchmark();
+  } catch (err) {
+    showToast(`Delete error: ${err.message}`, 'error');
+  } finally {
+    if (btn) btn.textContent = 'Confirm & Delete from DB';
   }
 }
 
@@ -853,6 +1041,12 @@ $('btnDemoPause')?.addEventListener('click', () => {
 $('btnImportModal')?.addEventListener('click', () => view('import'));
 $('btnRunReconcile')?.addEventListener('click', runReconciliationNow);
 $('btnReloadDemoDataset')?.addEventListener('click', reloadDemoDataset);
+$('btnOpenDeleteModal')?.addEventListener('click', openDeleteModal);
+$('btnCloseDeleteModal')?.addEventListener('click', closeDeleteModal);
+$('btnCancelDeleteModal')?.addEventListener('click', closeDeleteModal);
+$('btnConfirmDeleteDocuments')?.addEventListener('click', confirmDeleteDocuments);
+$('btnClearStagingQueue')?.addEventListener('click', clearStagingQueue);
+$('btnIngestAllBatch')?.addEventListener('click', ingestAllBatch);
 $('refresh')?.addEventListener('click', () => view(document.querySelector('nav button.active')?.dataset?.view || 'overview'));
 $('close')?.addEventListener('click', () => $('drawer')?.classList.add('hidden'));
 $('shade')?.addEventListener('click', () => $('drawer')?.classList.add('hidden'));

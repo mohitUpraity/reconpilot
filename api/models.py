@@ -20,3 +20,17 @@ class ImportUploadRequest(BaseModel):
     content: str
     merchant_id: str = Field(default="merchant_demo", min_length=1, max_length=100)
 
+class DeleteDocumentsRequest(BaseModel):
+    source: str = Field(default="all", pattern="^(all|invoices|payments|settlements|bank_statement)$")
+    merchant_id: str = Field(default="merchant_demo", min_length=1, max_length=100)
+
+class BatchUploadItem(BaseModel):
+    source_type: str = Field(pattern="^(invoices|payments|settlements|bank_statement)$")
+    filename: str = Field(min_length=1, max_length=255)
+    content: str
+
+class BatchUploadRequest(BaseModel):
+    merchant_id: str = Field(default="merchant_demo", min_length=1, max_length=100)
+    files: list[BatchUploadItem]
+    auto_reconcile: bool = Field(default=True)
+

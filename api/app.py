@@ -1,6 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
-import csv, io, json, os, uuid, asyncio
+import csv, io, json, os, uuid, asyncio, re
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
@@ -11,7 +11,10 @@ from db.repository import (
     resolve_case_manually, upsert_financial_record, audit
 )
 from api.webhooks import router as webhook_router
-from api.models import ReviewResolution, ImportUploadRequest
+from api.models import (
+    ReviewResolution, ImportUploadRequest,
+    DeleteDocumentsRequest, BatchUploadRequest, BatchUploadItem
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 load_dotenv(ROOT / ".env")
@@ -256,6 +259,44 @@ def get_benchmark():
         "disclaimer": "Ground truth evaluated on held-out test split with calibrated 0.93 confidence threshold. Live Gemini inference operates on top of this exact gate."
     }
 
+def extract_row_date(r: dict, default="2026-08-01") -> str:
+    for key in (
+        "invoice_date", "payment_date", "settlement_date", "transaction_date",
+        "date", "created_at", "settled_at", "posted_at", "event_date", "timestamp"
+    ):
+        val = r.get(key)
+        if val and str(val).strip():
+            clean = str(val).strip().split("T")[0].split(" ")[0]
+            if len(clean) >= 8:
+                return clean
+    return default
+
+def extract_row_amount(r: dict, keys=("amount", "net_amount", "credit", "debit")) -> int:
+    for k in keys:
+        val = r.get(k)
+        if val not in (None, ""):
+            cleaned = re.sub(r"[^\d.-]", "", str(val).strip())
+            if cleaned:
+                try:
+                    return int(round(float(cleaned)))
+                except ValueError:
+                    pass
+    return 0
+
+def extract_row_ref(r: dict, keys=("invoice_reference", "reference", "utr", "settlement_utr", "order_id", "order_receipt")) -> str:
+    for k in keys:
+        val = r.get(k)
+        if val and str(val).strip():
+            return str(val).strip()
+    return ""
+
+def extract_row_name(r: dict, keys=("customer_name", "customer", "description", "name")) -> str:
+    for k in keys:
+        val = r.get(k)
+        if val and str(val).strip():
+            return str(val).strip()
+    return ""
+
 @app.post("/api/v1/import/upload")
 def import_upload(req: ImportUploadRequest):
     reader = csv.DictReader(io.StringIO(req.content))
@@ -265,43 +306,43 @@ def import_upload(req: ImportUploadRequest):
 
     for r in reader:
         if req.source_type == "invoices":
-            inv_id = r.get("invoice_id") or f"INV_{uuid.uuid4().hex[:6]}"
-            amount = int(float(r.get("amount") or 0))
+            inv_id = r.get("invoice_id") or r.get("id") or f"INV_{uuid.uuid4().hex[:6]}"
+            amount = extract_row_amount(r, ("amount", "net_amount", "total"))
             upsert_financial_record(
                 merchant_id, "merchant", f"INV:{inv_id}", "invoice",
-                r.get("invoice_date") or r.get("date"), amount, r.get("currency", "INR"),
-                "receivable", r.get("customer_name", ""), inv_id, "Invoice", r
+                extract_row_date(r), amount, r.get("currency", "INR"),
+                "receivable", extract_row_name(r), inv_id, "Invoice", r
             )
             imported += 1
         elif req.source_type == "payments":
-            pid = r.get("payment_id") or f"pay_{uuid.uuid4().hex[:8]}"
-            amount = int(float(r.get("amount") or 0))
+            pid = r.get("payment_id") or r.get("entity_id") or r.get("id") or f"pay_{uuid.uuid4().hex[:8]}"
+            amount = extract_row_amount(r, ("amount", "credit", "net_amount"))
             upsert_financial_record(
                 merchant_id, "payment", pid, "payment",
-                r.get("payment_date") or r.get("date"), amount, r.get("currency", "INR"),
-                "credit", r.get("customer_name", ""), r.get("invoice_reference") or r.get("reference", ""),
+                extract_row_date(r), amount, r.get("currency", "INR"),
+                "credit", extract_row_name(r), extract_row_ref(r),
                 r.get("description", "Payment"), r
             )
             imported += 1
         elif req.source_type == "settlements":
-            sid = r.get("settlement_id") or f"set_{uuid.uuid4().hex[:8]}"
-            amount = int(float(r.get("net_amount") or r.get("amount") or 0))
+            sid = r.get("settlement_id") or r.get("entity_id") or r.get("id") or f"set_{uuid.uuid4().hex[:8]}"
+            amount = extract_row_amount(r, ("net_amount", "amount", "credit"))
             upsert_financial_record(
                 merchant_id, "razorpay", sid, "settlement",
-                r.get("settlement_date") or r.get("date"), amount, r.get("currency", "INR"),
-                "credit", "", r.get("utr") or r.get("reference", ""), "Settlement", r
+                extract_row_date(r), amount, r.get("currency", "INR"),
+                "credit", "", extract_row_ref(r, ("utr", "settlement_utr", "reference")), "Settlement", r
             )
             imported += 1
         elif req.source_type == "bank_statement":
-            btid = r.get("bank_txn_id") or f"bnk_{uuid.uuid4().hex[:8]}"
-            credit = int(float(r.get("credit") or 0)) if r.get("credit") else 0
-            debit = int(float(r.get("debit") or 0)) if r.get("debit") else 0
-            amount = credit if credit else debit
-            direction = "credit" if credit else "debit"
+            btid = r.get("bank_txn_id") or r.get("id") or f"bnk_{uuid.uuid4().hex[:8]}"
+            credit = extract_row_amount(r, ("credit",))
+            debit = extract_row_amount(r, ("debit",))
+            amount = credit if credit else (debit if debit else extract_row_amount(r, ("amount",)))
+            direction = "credit" if (credit or not debit) else "debit"
             upsert_financial_record(
                 merchant_id, "bank", btid, "bank_transaction",
-                r.get("transaction_date") or r.get("date"), amount, "INR",
-                direction, "", r.get("reference", ""), r.get("description", "Bank Transaction"), r
+                extract_row_date(r), amount, "INR",
+                direction, "", extract_row_ref(r, ("reference", "utr", "description")), r.get("description", "Bank Transaction"), r
             )
             imported += 1
 
@@ -313,6 +354,183 @@ def import_upload(req: ImportUploadRequest):
         "source_type": req.source_type,
         "filename": req.filename,
         "imported_rows": imported
+    }
+
+@app.post("/api/v1/import/batch-upload")
+def import_batch_upload(req: BatchUploadRequest):
+    merchant_id = req.merchant_id or "merchant_demo"
+    total_imported = 0
+    file_results = []
+    init_db()
+
+    try:
+        for item in req.files:
+            reader = csv.DictReader(io.StringIO(item.content))
+            file_count = 0
+            for r in reader:
+                if item.source_type == "invoices":
+                    inv_id = r.get("invoice_id") or r.get("id") or f"INV_{uuid.uuid4().hex[:6]}"
+                    amount = extract_row_amount(r, ("amount", "net_amount", "total"))
+                    upsert_financial_record(
+                        merchant_id, "merchant", f"INV:{inv_id}", "invoice",
+                        extract_row_date(r), amount, r.get("currency", "INR"),
+                        "receivable", extract_row_name(r), inv_id, "Invoice", r
+                    )
+                    file_count += 1
+                elif item.source_type == "payments":
+                    pid = r.get("payment_id") or r.get("entity_id") or r.get("id") or f"pay_{uuid.uuid4().hex[:8]}"
+                    amount = extract_row_amount(r, ("amount", "credit", "net_amount"))
+                    upsert_financial_record(
+                        merchant_id, "payment", pid, "payment",
+                        extract_row_date(r), amount, r.get("currency", "INR"),
+                        "credit", extract_row_name(r), extract_row_ref(r),
+                        r.get("description", "Payment"), r
+                    )
+                    file_count += 1
+                elif item.source_type == "settlements":
+                    sid = r.get("settlement_id") or r.get("entity_id") or r.get("id") or f"set_{uuid.uuid4().hex[:8]}"
+                    amount = extract_row_amount(r, ("net_amount", "amount", "credit"))
+                    upsert_financial_record(
+                        merchant_id, "razorpay", sid, "settlement",
+                        extract_row_date(r), amount, r.get("currency", "INR"),
+                        "credit", "", extract_row_ref(r, ("utr", "settlement_utr", "reference")), "Settlement", r
+                    )
+                    file_count += 1
+                elif item.source_type == "bank_statement":
+                    btid = r.get("bank_txn_id") or r.get("id") or f"bnk_{uuid.uuid4().hex[:8]}"
+                    credit = extract_row_amount(r, ("credit",))
+                    debit = extract_row_amount(r, ("debit",))
+                    amount = credit if credit else (debit if debit else extract_row_amount(r, ("amount",)))
+                    direction = "credit" if (credit or not debit) else "debit"
+                    upsert_financial_record(
+                        merchant_id, "bank", btid, "bank_transaction",
+                        extract_row_date(r), amount, "INR",
+                        direction, "", extract_row_ref(r, ("reference", "utr", "description")), r.get("description", "Bank Transaction"), r
+                    )
+                    file_count += 1
+
+            total_imported += file_count
+            file_results.append({
+                "filename": item.filename,
+                "source_type": item.source_type,
+                "imported_rows": file_count
+            })
+
+        # Auto-reconcile after batch import if requested
+        recon_summary = {}
+        if req.auto_reconcile:
+            try:
+                from src.db_reconciliation import run as reconcile_invoices
+                recon_summary["invoices"] = reconcile_invoices(merchant_id)
+            except Exception as exc:
+                recon_summary["invoices_error"] = str(exc)
+
+            try:
+                from scripts.reconcile_payment_settlement import run as reconcile_settlements
+                recon_summary["settlements"] = reconcile_settlements()
+            except Exception as exc:
+                recon_summary["settlements_error"] = str(exc)
+
+            try:
+                from scripts.reconcile_settlement_bank import run as reconcile_banks
+                recon_summary["banks"] = reconcile_banks()
+            except Exception as exc:
+                recon_summary["banks_error"] = str(exc)
+
+        conn = get_conn()
+        total_records = conn.execute("SELECT COUNT(*) c FROM financial_records WHERE merchant_id=?", (merchant_id,)).fetchone()["c"]
+        total_cases = conn.execute("SELECT COUNT(*) c FROM reconciliation_cases WHERE merchant_id=?", (merchant_id,)).fetchone()["c"]
+        total_exceptions = conn.execute("SELECT COUNT(*) c FROM exceptions e JOIN reconciliation_cases c ON c.case_id=e.case_id WHERE c.merchant_id=?", (merchant_id,)).fetchone()["c"]
+        conn.close()
+
+        audit(merchant_id, "MULTI_DOCUMENTS_BATCH_IMPORTED", "dashboard_user", {
+            "files_count": len(req.files),
+            "total_rows_imported": total_imported,
+            "total_db_records": total_records
+        })
+
+        return {
+            "status": "success",
+            "message": f"Successfully imported {len(req.files)} documents ({total_imported} records) and synchronized database.",
+            "files": file_results,
+            "total_imported": total_imported,
+            "reconciliation": recon_summary,
+            "live_db_counts": {
+                "financial_records": total_records,
+                "reconciliation_cases": total_cases,
+                "exceptions": total_exceptions
+            }
+        }
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Batch import error: {str(exc)}")
+
+@app.post("/api/v1/db/delete-documents")
+def delete_documents(req: DeleteDocumentsRequest):
+    merchant_id = req.merchant_id or "merchant_demo"
+    conn = get_conn()
+
+    if req.source == "all":
+        conn.execute("DELETE FROM reconciliation_links WHERE case_id IN (SELECT case_id FROM reconciliation_cases WHERE merchant_id=?)", (merchant_id,))
+        conn.execute("DELETE FROM exceptions WHERE case_id IN (SELECT case_id FROM reconciliation_cases WHERE merchant_id=?)", (merchant_id,))
+        conn.execute("DELETE FROM reconciliation_cases WHERE merchant_id=?", (merchant_id,))
+        conn.execute("DELETE FROM financial_records WHERE merchant_id=?", (merchant_id,))
+        deleted_label = "all financial records, reconciliation cases, and exceptions"
+    elif req.source == "invoices":
+        conn.execute("DELETE FROM reconciliation_links WHERE case_id IN (SELECT case_id FROM reconciliation_cases WHERE merchant_id=? AND case_type='invoice_to_payment')", (merchant_id,))
+        conn.execute("DELETE FROM exceptions WHERE case_id IN (SELECT case_id FROM reconciliation_cases WHERE merchant_id=? AND case_type='invoice_to_payment')", (merchant_id,))
+        conn.execute("DELETE FROM reconciliation_cases WHERE merchant_id=? AND case_type='invoice_to_payment'", (merchant_id,))
+        conn.execute("DELETE FROM financial_records WHERE merchant_id=? AND source='merchant'", (merchant_id,))
+        deleted_label = "invoices (merchant source)"
+    elif req.source == "payments":
+        conn.execute("DELETE FROM reconciliation_links WHERE case_id IN (SELECT case_id FROM reconciliation_cases WHERE merchant_id=?)", (merchant_id,))
+        conn.execute("DELETE FROM exceptions WHERE case_id IN (SELECT case_id FROM reconciliation_cases WHERE merchant_id=?)", (merchant_id,))
+        conn.execute("DELETE FROM reconciliation_cases WHERE merchant_id=?", (merchant_id,))
+        conn.execute("DELETE FROM financial_records WHERE merchant_id=? AND source='payment'", (merchant_id,))
+        deleted_label = "payments (gateway source)"
+    elif req.source == "settlements":
+        conn.execute("DELETE FROM financial_records WHERE merchant_id=? AND source='razorpay'", (merchant_id,))
+        deleted_label = "settlements (razorpay source)"
+    elif req.source == "bank_statement":
+        conn.execute("DELETE FROM financial_records WHERE merchant_id=? AND source='bank'", (merchant_id,))
+        deleted_label = "bank statement records (bank source)"
+    else:
+        conn.close()
+        raise HTTPException(status_code=400, detail=f"Unknown source: {req.source}")
+
+    conn.commit()
+
+    # Query fresh live counts from SQLite
+    total_records = conn.execute("SELECT COUNT(*) c FROM financial_records WHERE merchant_id=?", (merchant_id,)).fetchone()["c"]
+    total_cases = conn.execute("SELECT COUNT(*) c FROM reconciliation_cases WHERE merchant_id=?", (merchant_id,)).fetchone()["c"]
+    total_exceptions = conn.execute("""
+        SELECT COUNT(*) c FROM exceptions e
+        JOIN reconciliation_cases c ON c.case_id=e.case_id
+        WHERE c.merchant_id=?
+    """, (merchant_id,)).fetchone()["c"]
+
+    sources = conn.execute("SELECT source, COUNT(*) c FROM financial_records WHERE merchant_id=? GROUP BY source", (merchant_id,)).fetchall()
+    sources_dict = {r["source"]: r["c"] for r in sources}
+    conn.close()
+
+    audit(merchant_id, "DOCUMENTS_DELETED", "dashboard_user", {
+        "source": req.source,
+        "remaining_records": total_records,
+        "remaining_cases": total_cases
+    })
+
+    return {
+        "status": "success",
+        "message": f"Successfully deleted {deleted_label} from SQLite database.",
+        "deleted_source": req.source,
+        "counts": {
+            "financial_records": total_records,
+            "reconciliation_cases": total_cases,
+            "exceptions": total_exceptions,
+            "invoices": sources_dict.get("merchant", 0),
+            "payments": sources_dict.get("payment", 0),
+            "settlements": sources_dict.get("razorpay", 0),
+            "bank": sources_dict.get("bank", 0)
+        }
     }
 
 @app.post("/api/v1/import/demo")
