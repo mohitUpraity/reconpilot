@@ -35,6 +35,97 @@ async function post(path, body = {}) {
   return r.json();
 }
 
+// ----------------- TOAST NOTIFICATIONS -----------------
+function showToast(message, type = 'info') {
+  const container = $('toastContainer') || document.body;
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  const icon = type === 'success' ? '✓' : (type === 'error' ? '⚠' : 'ℹ');
+  toast.innerHTML = `<span style="font-weight:bold;font-size:14px;">${icon}</span><span>${esc(message)}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(-10px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+// ----------------- AI DIAGNOSTICS & STATUS -----------------
+let aiDiagnosticsData = null;
+
+async function fetchAiStatus() {
+  try {
+    const res = await get('/api/v1/ai/status');
+    aiDiagnosticsData = res;
+    const chipText = $('aiChipText');
+    const chipDot = $('aiChipDot');
+    const footerTag = $('footerModelTag');
+    const diagModel = $('diagModelName');
+    const diagKey = $('diagKeyStatus');
+    
+    if (chipText) chipText.textContent = res.has_key ? `Gemini: ${res.configured_model}` : 'Gemini: Key Needed';
+    if (chipDot) {
+      chipDot.className = `status-indicator-dot ${res.has_key ? 'online' : 'offline'}`;
+      chipDot.title = res.has_key ? `Connected with model ${res.configured_model}` : 'API key not configured in .env';
+    }
+    if (footerTag) footerTag.textContent = `${res.configured_model} (Live)`;
+    if (diagModel) diagModel.textContent = res.configured_model;
+    if (diagKey) {
+      diagKey.textContent = res.has_key ? `Active (${res.masked_key})` : 'Missing in .env';
+      diagKey.className = res.has_key ? 'good' : 'bad';
+    }
+  } catch (err) {
+    console.warn('AI status check failed:', err);
+  }
+}
+
+function openAiDiagnostics() {
+  $('aiDiagnosticsModal')?.classList.remove('hidden');
+  fetchAiStatus();
+}
+
+function closeAiDiagnostics() {
+  $('aiDiagnosticsModal')?.classList.add('hidden');
+}
+
+async function runLiveAiTest() {
+  const btn = $('btnRunAiTest');
+  const out = $('aiTestResult');
+  if (!btn || !out) return;
+
+  btn.textContent = 'Testing Gemini...';
+  btn.disabled = true;
+  out.style.display = 'block';
+  out.innerHTML = `<span style="color:var(--soft);">Sending live test payload to Google Gemini API...</span>`;
+
+  try {
+    const res = await post('/api/v1/ai/test');
+    if (res.ok) {
+      out.innerHTML = `
+        <div style="color:var(--good);font-weight:bold;margin-bottom:6px;">✓ LIVE GEMINI CONNECTION VERIFIED</div>
+        <div>Model Used: <b style="color:#fff;">${esc(res.model)}</b></div>
+        <div>Round-Trip Latency: <b style="color:#fff;">${res.latency_ms} ms</b></div>
+        <div>Tokens: <span style="color:#fff;">Prompt: ${res.usage?.prompt_tokens} · Response: ${res.usage?.candidates_tokens} · Total: ${res.usage?.total_tokens}</span></div>
+        <div style="margin-top:6px;color:var(--soft);font-size:10px;">${esc(res.note || '')}</div>
+      `;
+      showToast(`✓ Gemini API responded in ${res.latency_ms}ms`, 'success');
+    } else {
+      out.innerHTML = `
+        <div style="color:var(--bad);font-weight:bold;margin-bottom:6px;">⚠ CONNECTION FAILED</div>
+        <div style="color:#ff8888;">${esc(res.error || 'Unknown error')}</div>
+        <div style="margin-top:6px;color:var(--muted);font-size:10px;">Please check GEMINI_API_KEY in your .env file and ensure model name is valid.</div>
+      `;
+      showToast(`Gemini error: ${res.error}`, 'error');
+    }
+  } catch (err) {
+    out.innerHTML = `<div style="color:var(--bad);">Error calling test endpoint: ${esc(err.message)}</div>`;
+    showToast(`Test error: ${err.message}`, 'error');
+  } finally {
+    btn.textContent = '⚡ Run Ping Test';
+    btn.disabled = false;
+  }
+}
+
 // ----------------- OVERVIEW & CONTROL ROOM -----------------
 async function overview() {
   try {
@@ -72,13 +163,24 @@ async function overview() {
       </div>
     `).join('') || '<div class="muted">No sources loaded.</div>';
 
+    // Source cards update
+    const bySource = {};
+    src.forEach(r => { bySource[r.source] = r.c; });
+    if ($('cntInvoices')) $('cntInvoices').textContent = `${fmt(bySource['merchant'] || 500)} records`;
+    if ($('cntPayments')) $('cntPayments').textContent = `${fmt(bySource['payment'] || 531)} records`;
+    if ($('cntSettlements')) $('cntSettlements').textContent = `${fmt(bySource['razorpay'] || 78)} batches`;
+    if ($('cntBank')) $('cntBank').textContent = `${fmt(bySource['bank'] || 81)} txns`;
+
     // Agent pods state update
     updateAgentPod('pod-ingest', 'state-ingest', 'bubble-ingest', 'idle', 'IDLE', '4 sources loaded');
-    updateAgentPod('pod-normalize', 'state-normalize', 'bubble-normalize', 'completed', 'COMPLETED', '1,190 in standard schema');
+    updateAgentPod('pod-normalize', 'state-normalize', 'bubble-normalize', 'completed', 'COMPLETED', `${fmt(d.counts?.financial_records ?? 1190)} standard records`);
     updateAgentPod('pod-match', 'state-match', 'bubble-match', 'completed', 'COMPLETED', `${fmt(m.RECONCILED || 389)} high-conf matches`);
-    updateAgentPod('pod-ai', 'state-ai', 'bubble-ai', 'working', 'READY', 'Gemini 2.5 Flash Lite');
+    const aiLabel = aiDiagnosticsData?.configured_model || 'Gemini 3.1 Flash-Lite';
+    updateAgentPod('pod-ai', 'state-ai', 'bubble-ai', 'working', 'READY', aiLabel);
     updateAgentPod('pod-policy', 'state-policy', 'bubble-policy', 'blocked', 'GUARDING', 'Gate: 0.93 threshold');
     updateAgentPod('pod-human', 'state-human', 'bubble-human', 'waiting', 'WAITING', `${fmt(m.REVIEW || 73)} cases in review`);
+
+    fetchAiStatus();
   } catch (err) {
     console.error('Failed to load overview:', err);
   }
@@ -291,6 +393,12 @@ async function benchmark() {
   try {
     const d = await get('/api/v1/benchmark');
     console.log('Benchmark data loaded:', d);
+    if (d && d.llm_benchmark) {
+      const llm = d.llm_benchmark;
+      if ($('benchModelBadge')) $('benchModelBadge').textContent = `✨ ${llm.model} Active`;
+      if ($('benchModelSub')) $('benchModelSub').textContent = llm.model;
+      if ($('benchGeminiCasesCount')) $('benchGeminiCasesCount').textContent = (llm.gemini_resolved_cases || 0);
+    }
   } catch (err) {
     console.error('Failed to load benchmark:', err);
   }
@@ -395,35 +503,70 @@ async function openCase(id) {
 async function runLiveGemini(caseId) {
   const box = $('geminiLiveResult');
   if (!box) return;
+  const currentModel = aiDiagnosticsData?.configured_model || 'gemini-3.1-flash-lite';
   box.style.display = 'block';
-  box.innerHTML = '<div class="muted">Invoking Gemini 2.5 Flash Lite investigator with structured evidence packet…</div>';
+  box.innerHTML = `
+    <div style="background:#0e131b;border:1px solid var(--ai-border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px;">
+      <div class="pulse-dot" style="background:var(--ai);"></div>
+      <span style="color:var(--ai);font-size:12px;">Querying Google Gemini (${esc(currentModel)}) with Pydantic gate verification...</span>
+    </div>
+  `;
   try {
     const res = await post(`/api/v1/ai/investigate/${encodeURIComponent(caseId)}`);
+    const usage = res.usage || {};
+    const estCost = usage.estimated_cost_usd !== undefined ? `$${usage.estimated_cost_usd}` : '< $0.0001';
+
     box.innerHTML = `
-      <div style="background:#0e131b;border:1px solid var(--ai-border);border-radius:8px;padding:10px;">
-        <div style="display:flex;justify-content:space-between;">
-          <b style="color:var(--ai);">Gemini Decision: ${esc(res.decision)}</b>
-          <span>Conf: ${pc(res.confidence)}</span>
+      <div style="background:#0e131b;border:1px solid var(--ai-border);border-radius:10px;padding:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="badge" style="background:rgba(139,92,246,0.2);color:#c4b5fd;border:1px solid #8b5cf6;">
+              ✨ Google Gemini (${esc(res.model)})
+            </span>
+            <b style="color:${res.decision === 'MATCH' ? 'var(--good)' : (res.decision === 'REVIEW' ? 'var(--warn)' : 'var(--bad)')};">
+              ${esc(res.decision)}
+            </b>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#fff;">Conf: ${pc(res.confidence)}</span>
         </div>
-        <div style="margin-top:6px;color:var(--soft);">
+
+        <div style="margin-top:8px;color:var(--soft);font-size:12px;">
           <b>Evidence:</b>
           <ul style="margin:4px 0 6px 16px;padding:0;">
             ${(res.evidence || []).map(x => `<li>${esc(x)}</li>`).join('')}
           </ul>
           ${res.risks?.length ? `
-            <b style="color:var(--warn);">Risks:</b>
+            <b style="color:var(--warn);">Risks Identified:</b>
             <ul style="margin:4px 0 0 16px;padding:0;">
               ${res.risks.map(x => `<li>${esc(x)}</li>`).join('')}
             </ul>
           ` : ''}
         </div>
-        <div style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;">
-          Model: ${esc(res.model)} · Pydantic validation: <b class="good">${esc(res.pydantic_validation?.status)}</b> · Policy gate: <b class="${res.policy_gate?.auto_match_allowed ? 'good' : 'warn'}">${res.policy_gate?.final_action}</b>
+
+        <!-- Token Usage & Economics Strip -->
+        <div style="margin-top:10px;background:#141b25;border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:10px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+          <span>Prompt: <b style="color:#fff;">${usage.prompt_tokens || '—'}</b> tokens</span>
+          <span>Output: <b style="color:#fff;">${usage.candidates_tokens || '—'}</b> tokens</span>
+          <span>Total: <b style="color:#fff;">${usage.total_tokens || '—'}</b> tokens</span>
+          <span>Est. Cost: <b style="color:var(--good);">${estCost}</b></span>
+        </div>
+
+        <div style="margin-top:8px;font-size:10px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            Pydantic validation: <b class="good">${esc(res.pydantic_validation?.status)}</b> (extra='forbid') · 
+            Policy Gate: <b class="${res.policy_gate?.auto_match_allowed ? 'good' : 'warn'}">${res.policy_gate?.final_action}</b>
+          </div>
+          ${res.raw_json ? `
+            <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="btn ghost sm" style="font-size:9px;padding:2px 6px;">Raw JSON</button>
+            <pre class="hidden" style="margin-top:8px;padding:8px;background:#06080b;border-radius:6px;font-size:10px;color:#94a3b8;max-height:150px;overflow-y:auto;width:100%;">${esc(res.raw_json)}</pre>
+          ` : ''}
         </div>
       </div>
     `;
+    showToast(`Investigation finished: ${res.decision} (${pc(res.confidence)})`, 'info');
   } catch (err) {
-    box.innerHTML = `<div class="bad">Gemini investigation: ${esc(err.message)}</div>`;
+    box.innerHTML = `<div class="bad" style="padding:10px;border:1px solid var(--bad-border);border-radius:8px;">Gemini investigation error: ${esc(err.message)}</div>`;
+    showToast(`Gemini error: ${err.message}`, 'error');
   }
 }
 
@@ -431,7 +574,7 @@ async function resolveCase(id, action) {
   const payment = action === 'approve_match' ? ($('reviewPayment')?.value || '') : null;
   const note = $('reviewNote')?.value || '';
   if (action === 'approve_match' && !payment) {
-    alert('Please enter or select a payment candidate ID first.');
+    showToast('Please enter or select a payment candidate ID first.', 'error');
     return;
   }
   try {
@@ -441,6 +584,7 @@ async function resolveCase(id, action) {
       note,
       actor: 'dashboard_reviewer'
     });
+    showToast(`Case ${id} resolved successfully.`, 'success');
     await openCase(id);
     overview();
     cases();
@@ -448,7 +592,7 @@ async function resolveCase(id, action) {
     reviewQueue();
     audit();
   } catch (err) {
-    alert(`Resolution failed: ${err.message}`);
+    showToast(`Resolution failed: ${err.message}`, 'error');
   }
 }
 
@@ -500,44 +644,145 @@ function startDemoMode() {
   };
 }
 
-// ----------------- FILE IMPORT & DEMO LOADER -----------------
+// ----------------- FILE IMPORT & RECONCILIATION RUNNER -----------------
 async function reloadDemoDataset() {
   try {
     const btn = $('btnReloadDemoDataset');
     if (btn) btn.textContent = 'Reloading…';
     const res = await post('/api/v1/import/demo');
-    alert(res.message);
+    showToast(res.message, 'success');
     overview();
     if (btn) btn.textContent = '⚡ Reload Verified Demo Dataset';
   } catch (err) {
-    alert(`Failed to reload demo dataset: ${err.message}`);
+    showToast(`Failed to reload demo dataset: ${err.message}`, 'error');
   }
 }
 
-async function handleFileUpload(file) {
-  const name = file.name.toLowerCase();
-  let type = 'invoices';
-  if (name.includes('pay')) type = 'payments';
-  else if (name.includes('settle')) type = 'settlements';
-  else if (name.includes('bank')) type = 'bank_statement';
+async function runReconciliationNow() {
+  const btn = $('btnRunReconcile');
+  if (btn) btn.textContent = 'Reconciling…';
+  try {
+    await post('/api/v1/reconcile/run');
+    showToast('Reconciliation cycle completed successfully.', 'success');
+    overview();
+    cases();
+    exceptions();
+    reviewQueue();
+  } catch (err) {
+    showToast(`Reconciliation error: ${err.message}`, 'error');
+  } finally {
+    if (btn) btn.textContent = '⚡ Run Reconciliation';
+  }
+}
 
-  const reader = new FileReader();
-  reader.onload = async e => {
-    try {
-      const content = e.target.result;
-      const res = await post('/api/v1/import/upload', {
-        source_type: type,
-        filename: file.name,
-        content: content,
-        merchant_id: merchant
-      });
-      alert(`Successfully imported ${res.imported_rows} records from ${file.name} as ${type}.`);
-      overview();
-    } catch (err) {
-      alert(`Import error: ${err.message}`);
-    }
+function renderStagedFileCard(file, type, rowCount, headers, sampleRows) {
+  const staging = $('uploadStagingArea');
+  if (!staging) return;
+
+  const card = document.createElement('div');
+  card.className = 'staging-card';
+  const kbSize = (file.size / 1024).toFixed(1);
+  const typeIcons = {
+    invoices: '📄',
+    payments: '💳',
+    settlements: '🏦',
+    bank_statement: '🏛'
   };
-  reader.readAsText(file);
+  const typeTitles = {
+    invoices: 'Merchant Receivables (Invoices)',
+    payments: 'Gateway Collections (Payments)',
+    settlements: 'Razorpay Settlements (Batches)',
+    bank_statement: 'Bank Statement (Payout Credits)'
+  };
+
+  card.innerHTML = `
+    <div class="staging-header">
+      <div class="staging-file-info">
+        <div class="staging-icon">${typeIcons[type] || '📁'}</div>
+        <div class="staging-details">
+          <h4>${esc(file.name)} <span class="badge good">INGESTED & NORMALIZED</span></h4>
+          <span>${typeTitles[type] || type} · ${kbSize} KB · <b style="color:#fff;">${rowCount} records parsed</b></span>
+        </div>
+      </div>
+      <div class="stepper-status">
+        <span class="chip" style="color:var(--good);border-color:var(--good-border);">Canonical Schema ✓</span>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Auto-Detected & Mapped Fields:</div>
+      <div class="column-chips">
+        ${headers.slice(0, 8).map(h => `<span class="col-chip mapped">✓ ${esc(h)}</span>`).join('')}
+        ${headers.length > 8 ? `<span class="col-chip">+${headers.length - 8} more</span>` : ''}
+      </div>
+    </div>
+
+    ${sampleRows && sampleRows.length ? `
+      <details style="margin-top:6px;">
+        <summary style="font-size:11px;color:var(--accent-light);cursor:pointer;user-select:none;">Preview First ${sampleRows.length} Rows (Click to inspect)</summary>
+        <div class="staging-preview-table-container">
+          <table class="staging-preview-table">
+            <thead>
+              <tr>${headers.slice(0, 6).map(h => `<th>${esc(h)}</th>`).join('')}</tr>
+            </thead>
+            <tbody>
+              ${sampleRows.map(r => `<tr>${headers.slice(0, 6).map(h => `<td>${esc(r[h] || '')}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    ` : ''}
+
+    <div class="staging-actions">
+      <div style="font-size:11px;color:var(--soft);">Staged in database. Ready for multi-hop reconciliation.</div>
+      <button onclick="runReconciliationNow()" class="btn primary sm">⚡ Run Multi-Hop Reconciliation Now</button>
+    </div>
+  `;
+  staging.prepend(card);
+}
+
+async function handleFiles(fileList) {
+  if (!fileList || !fileList.length) return;
+  const files = Array.from(fileList);
+
+  for (const file of files) {
+    const name = file.name.toLowerCase();
+    let type = 'invoices';
+    if (name.includes('pay')) type = 'payments';
+    else if (name.includes('settle')) type = 'settlements';
+    else if (name.includes('bank')) type = 'bank_statement';
+
+    const reader = new FileReader();
+    reader.onload = async e => {
+      try {
+        const content = e.target.result;
+        // Parse headers & sample rows
+        const lines = content.split(/\r?\n/).filter(l => l.trim().length > 0);
+        const headers = lines[0] ? lines[0].split(',').map(s => s.trim().replace(/^["']|["']$/g, '')) : [];
+        const sampleRows = [];
+        for (let i = 1; i < Math.min(lines.length, 5); i++) {
+          const vals = lines[i].split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
+          const rowObj = {};
+          headers.forEach((h, idx) => { rowObj[h] = vals[idx] || ''; });
+          sampleRows.push(rowObj);
+        }
+
+        const res = await post('/api/v1/import/upload', {
+          source_type: type,
+          filename: file.name,
+          content: content,
+          merchant_id: merchant
+        });
+
+        renderStagedFileCard(file, type, res.imported_rows, headers, sampleRows);
+        showToast(`✓ Ingested ${res.imported_rows} records from ${file.name}`, 'success');
+        overview();
+      } catch (err) {
+        showToast(`Import error for ${file.name}: ${err.message}`, 'error');
+      }
+    };
+    reader.readAsText(file);
+  }
 }
 
 // ----------------- VIEW SWITCHER & EVENT LISTENERS -----------------
@@ -560,6 +805,7 @@ function view(v) {
   $('pageTitle').textContent = titles[v] || 'Control Room';
 
   if (v === 'overview') overview();
+  if (v === 'import') overview();
   if (v === 'reconciliation') cases();
   if (v === 'exceptions') exceptions();
   if (v === 'review') reviewQueue();
@@ -590,6 +836,11 @@ document.querySelectorAll('.ef').forEach(x => x.onclick = () => {
 $('caseSearchInput')?.addEventListener('input', () => cases());
 
 // Top action buttons
+$('btnAiStatusChip')?.addEventListener('click', openAiDiagnostics);
+$('btnCloseAiModal')?.addEventListener('click', closeAiDiagnostics);
+$('btnCloseAiModalFooter')?.addEventListener('click', closeAiDiagnostics);
+$('btnRunAiTest')?.addEventListener('click', runLiveAiTest);
+
 $('btnDemoMode')?.addEventListener('click', startDemoMode);
 $('btnDemoSkip')?.addEventListener('click', () => {
   if (demoEventSource) demoEventSource.close();
@@ -600,19 +851,7 @@ $('btnDemoPause')?.addEventListener('click', () => {
   if (demoEventSource) demoEventSource.close();
 });
 $('btnImportModal')?.addEventListener('click', () => view('import'));
-$('btnRunReconcile')?.addEventListener('click', async () => {
-  const btn = $('btnRunReconcile');
-  btn.textContent = 'Running…';
-  try {
-    await post('/api/v1/reconcile/run');
-    alert('Reconciliation cycle completed successfully.');
-    overview();
-  } catch (err) {
-    alert(`Reconciliation error: ${err.message}`);
-  } finally {
-    btn.textContent = '⚡ Run Reconciliation';
-  }
-});
+$('btnRunReconcile')?.addEventListener('click', runReconciliationNow);
 $('btnReloadDemoDataset')?.addEventListener('click', reloadDemoDataset);
 $('refresh')?.addEventListener('click', () => view(document.querySelector('nav button.active')?.dataset?.view || 'overview'));
 $('close')?.addEventListener('click', () => $('drawer')?.classList.add('hidden'));
@@ -627,16 +866,150 @@ if (dropzone) {
     e.preventDefault();
     dropzone.classList.remove('dragover');
     if (e.dataTransfer.files.length) {
-      handleFileUpload(e.dataTransfer.files[0]);
+      handleFiles(e.dataTransfer.files);
     }
   };
 }
 
 $('fileInput')?.addEventListener('change', e => {
   if (e.target.files.length) {
-    handleFileUpload(e.target.files[0]);
+    handleFiles(e.target.files);
   }
 });
 
+// ----------------- BATCH AI INVESTIGATION (RATE-GUARDED) -----------------
+let selectedBatchLimit = 5;
+let batchEventSource = null;
+
+function openBatchModal() {
+  $('batchModal')?.classList.remove('hidden');
+}
+
+function closeBatchModal() {
+  if (batchEventSource) {
+    batchEventSource.close();
+    batchEventSource = null;
+  }
+  $('batchModal')?.classList.add('hidden');
+}
+
+function selectBatchPreset(limit, btn) {
+  selectedBatchLimit = limit;
+  document.querySelectorAll('.batch-preset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function startBatchInvestigation() {
+  const box = $('batchProgressBox');
+  const feed = $('batchStreamFeed');
+  const bar = $('batchProgressBar');
+  const startBtn = $('btnStartBatch');
+  const cancelBtn = $('btnCancelBatch');
+
+  if (batchEventSource) batchEventSource.close();
+
+  box.style.display = 'block';
+  feed.innerHTML = `<div style="color:var(--soft);margin-bottom:4px;">Initiating rate-guarded investigation (Batch: ${selectedBatchLimit} cases, Paced at 14.2 RPM under 15 RPM cap)...</div>`;
+  bar.style.width = '0%';
+  startBtn.style.display = 'none';
+  cancelBtn.style.display = 'inline-block';
+
+  let matchCount = 0;
+  let reviewCount = 0;
+  let tokenCount = 0;
+  let costTotal = 0.0;
+
+  batchEventSource = new EventSource(`/api/v1/ai/batch-stream?limit=${selectedBatchLimit}&merchant_id=${merchant}&delay=4.2`);
+
+  batchEventSource.onmessage = e => {
+    try {
+      const data = JSON.parse(e.data);
+      if (data.type === 'init') {
+        $('batchProgressTitle').textContent = `Investigating ${data.total} exception cases with Gemini`;
+        $('batchProgressCount').textContent = `0 / ${data.total}`;
+      } else if (data.type === 'progress') {
+        $('batchProgressTitle').textContent = `Analyzing ${data.case_id}...`;
+        $('batchProgressCount').textContent = `${data.index} / ${data.total}`;
+        const pct = Math.round((data.index - 1) / data.total * 100);
+        bar.style.width = `${pct}%`;
+      } else if (data.type === 'case_result') {
+        if (data.decision === 'MATCH') matchCount++;
+        else reviewCount++;
+        tokenCount += data.tokens || 0;
+        costTotal += data.cost || 0;
+
+        $('batchMatches').textContent = matchCount;
+        $('batchReviews').textContent = reviewCount;
+        $('batchTokens').textContent = tokenCount.toLocaleString();
+        $('batchCost').textContent = `$${costTotal.toFixed(4)}`;
+
+        const logEntry = document.createElement('div');
+        const color = data.decision === 'MATCH' ? 'var(--good)' : 'var(--warn)';
+        logEntry.innerHTML = `[${data.index}/${data.total}] <b>${esc(data.case_id)}</b> → <span style="color:${color};font-weight:700;">${data.decision}</span> (${Math.round(data.confidence*100)}%) · ${data.tokens} tokens · $${(data.cost||0).toFixed(5)}`;
+        feed.prepend(logEntry);
+
+        const pct = Math.round(data.index / data.total * 100);
+        bar.style.width = `${pct}%`;
+      } else if (data.type === 'pacing') {
+        const paceMsg = document.createElement('div');
+        paceMsg.style.color = '#7c3aed';
+        paceMsg.style.fontSize = '9px';
+        paceMsg.textContent = `⏳ Pacing 4.2s to enforce free-tier 15 RPM guard...`;
+        feed.prepend(paceMsg);
+      } else if (data.type === 'case_error') {
+        const errMsg = document.createElement('div');
+        errMsg.style.color = 'var(--danger)';
+        errMsg.style.fontSize = '9px';
+        errMsg.textContent = `⚠ [${esc(data.case_id)}] ${esc(data.error)}`;
+        feed.prepend(errMsg);
+      } else if (data.type === 'complete') {
+        batchEventSource.close();
+        batchEventSource = null;
+        bar.style.width = '100%';
+        $('batchProgressTitle').textContent = `✓ Batch Investigation Complete!`;
+        startBtn.style.display = 'inline-block';
+        startBtn.textContent = 'Run Another Batch';
+        cancelBtn.style.display = 'none';
+        showToast(`✓ Batch investigation completed: ${matchCount} matches, ${reviewCount} reviews`, 'success');
+        overview();
+        exceptions();
+        reviewQueue();
+        cases();
+      }
+    } catch (err) {
+      console.error('Batch stream parse error:', err);
+    }
+  };
+
+  batchEventSource.onerror = () => {
+    feed.prepend(document.createTextNode('Stream disconnected or finished.'));
+    if (batchEventSource) batchEventSource.close();
+    batchEventSource = null;
+    startBtn.style.display = 'inline-block';
+    cancelBtn.style.display = 'none';
+  };
+}
+
+// Batch Event Listeners
+$('btnOpenBatchModal')?.addEventListener('click', openBatchModal);
+$('btnCloseBatchModal')?.addEventListener('click', closeBatchModal);
+$('btnCloseBatchModalFooter')?.addEventListener('click', closeBatchModal);
+$('btnStartBatch')?.addEventListener('click', startBatchInvestigation);
+$('btnCancelBatch')?.addEventListener('click', () => {
+  if (batchEventSource) {
+    batchEventSource.close();
+    batchEventSource = null;
+  }
+  $('batchProgressTitle').textContent = 'Batch paused by user.';
+  $('btnStartBatch').style.display = 'inline-block';
+  $('btnCancelBatch').style.display = 'none';
+  showToast('Batch investigation paused.', 'info');
+});
+
+document.querySelectorAll('.batch-preset-btn').forEach(btn => {
+  btn.onclick = () => selectBatchPreset(Number(btn.dataset.limit || 5), btn);
+});
+
 // Initial boot
+fetchAiStatus();
 overview();

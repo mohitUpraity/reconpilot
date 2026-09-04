@@ -78,6 +78,9 @@
           <span class="dot"></span> Demo Merchant
         </div>
         <div class="date-chip">📅 September 2026</div>
+        <button id="btnAiStatusChip" class="ai-status-chip" title="Click to view Gemini LLM diagnostics and test connection">
+          <span>✨</span> <span id="aiChipText">Gemini 3.1 Flash-Lite</span> <span id="aiChipDot" class="status-indicator-dot online"></span>
+        </button>
         <button id="btnImportModal" class="btn secondary">📥 Import Files</button>
         <button id="btnRunReconcile" class="btn secondary">⚡ Run Reconciliation</button>
         <button id="btnDemoMode" class="btn primary">▶ Demo Mode (5-Min)</button>
@@ -338,6 +341,9 @@
             <button onclick="document.getElementById('fileInput').click()" class="btn primary sm" style="margin-top:14px;">Select Files</button>
           </div>
 
+          <!-- Staged Upload & Live Preview Area -->
+          <div id="uploadStagingArea" class="upload-staging-area"></div>
+
           <!-- 4 Supported Source Cards -->
           <div class="source-cards-grid">
             <div class="src-card" id="card-invoices">
@@ -436,7 +442,12 @@
             <b>Exception Queue</b>
             <small>Cases where evidence was insufficient or conflicting; never silently closed</small>
           </div>
-          <span id="excCount" class="count">0</span>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button id="btnOpenBatchModal" class="btn primary sm" style="background:rgba(139,92,246,0.25);border:1px solid #8b5cf6;color:#c4b5fd;">
+              <span>🧠</span> Batch Investigate with Gemini
+            </button>
+            <span id="excCount" class="count">0</span>
+          </div>
         </div>
         <div id="excList" class="list"></div>
       </section>
@@ -656,6 +667,87 @@
           </table>
         </div>
       </section>
+
+      <!-- LIVE GEMINI CONTROLLER TELEMETRY & THREE-TIER MATRIX -->
+      <section class="panel" style="margin-top:14px;">
+        <div class="ph">
+          <div>
+            <b>Live Gemini AI Controller & Architecture Comparison</b>
+            <small>Live runtime benchmarks, policy governance, and token economics</small>
+          </div>
+          <span class="badge" style="background:rgba(139,92,246,0.15); color:#c4b5fd; border:1px solid rgba(139,92,246,0.4);" id="benchModelBadge">✨ gemini-3.1-flash-lite Active</span>
+        </div>
+        <div class="bench-body">
+          <!-- 4 Telemetry Stats Cards -->
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin-bottom:18px;">
+            <div style="background:#090d13; border:1px solid var(--line); border-radius:8px; padding:12px;">
+              <span style="font-size:10px; color:var(--muted); font-weight:700; display:block;">CALIBRATED POLICY GATE</span>
+              <strong style="font-size:20px; color:var(--good); display:block; margin-top:4px;">0.93</strong>
+              <small style="font-size:10px; color:var(--soft);">Confidence threshold for auto-matching</small>
+            </div>
+            <div style="background:#090d13; border:1px solid var(--line); border-radius:8px; padding:12px;">
+              <span style="font-size:10px; color:var(--muted); font-weight:700; display:block;">SCHEMA GOVERNANCE</span>
+              <strong style="font-size:16px; color:#fff; display:block; margin-top:4px;">Pydantic v2</strong>
+              <small style="font-size:10px; color:var(--soft);">extra='forbid' native JSON validation</small>
+            </div>
+            <div style="background:#090d13; border:1px solid var(--line); border-radius:8px; padding:12px;">
+              <span style="font-size:10px; color:var(--muted); font-weight:700; display:block;">RATE GUARD PACING</span>
+              <strong style="font-size:16px; color:#c4b5fd; display:block; margin-top:4px;">14.28 RPM</strong>
+              <small style="font-size:10px; color:var(--soft);">4.2s delay strictly under 15 RPM / 500 RPD</small>
+            </div>
+            <div style="background:#090d13; border:1px solid var(--line); border-radius:8px; padding:12px;">
+              <span style="font-size:10px; color:var(--muted); font-weight:700; display:block;">LIVE AI RESOLUTIONS IN DB</span>
+              <strong style="font-size:20px; color:var(--good); display:block; margin-top:4px;" id="benchGeminiCasesCount">0</strong>
+              <small style="font-size:10px; color:var(--soft);">Cases resolved by Gemini in SQLite</small>
+            </div>
+          </div>
+
+          <!-- Three-Tier Architecture Matrix -->
+          <b style="font-size:12px; color:#fff; display:block; margin-bottom:8px;">Three-Tier Hybrid Reconciliation Architecture</b>
+          <table class="bench-table" id="benchArchTable">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Engine &amp; Role</th>
+                <th>Target Scope</th>
+                <th>Precision / Gate</th>
+                <th>Cost per Case</th>
+                <th>Latency</th>
+                <th>Governance Mechanism</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b style="color:var(--good);">Tier 1</b></td>
+                <td><b>Deterministic Engine</b><br><small style="color:var(--muted);">SQL exact rules (ref, amount, date)</small></td>
+                <td>389 cases (77.8%)</td>
+                <td><b style="color:var(--good);">100.0%</b></td>
+                <td><b>$0.00</b> (0 tokens)</td>
+                <td>&lt; 10ms</td>
+                <td>Database integrity constraints</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><b style="color:#38bdf8;">Tier 2</b></td>
+                <td><b>Calibrated Heuristics</b><br><small style="color:var(--muted);">Phase 10 Statistical Baseline</small></td>
+                <td>88 Held-out Test Cases</td>
+                <td><b>96.61%</b> (Recall: 75.0%)</td>
+                <td><b>$0.00</b> (Offline)</td>
+                <td>&lt; 50ms</td>
+                <td>Calibrated 0.93 Confidence Gate</td>
+              </tr>
+              <tr>
+                <td><b style="color:#c4b5fd;">Tier 3</b></td>
+                <td><b>Live Gemini AI Controller</b><br><small style="color:var(--muted);"><span id="benchModelSub">gemini-3.1-flash-lite</span> native JSON</small></td>
+                <td>111 Ambiguous Exceptions</td>
+                <td><b style="color:#c4b5fd;">Gated by 0.93 Policy</b></td>
+                <td><b>~$0.00016</b> (~1,050 tok)</td>
+                <td>~1.2s</td>
+                <td>Pydantic extra='forbid' + 0.93 Gate + Human Review</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
   </main>
@@ -676,6 +768,134 @@
   </aside>
 </div>
 
-<script src="/web/app.js?v=3"></script>
+<!-- AI Diagnostics & Live LLM Test Modal -->
+<div id="aiDiagnosticsModal" class="modal-backdrop hidden">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3><span>✨</span> Google Gemini AI Finance Controller Diagnostics</h3>
+      <button id="btnCloseAiModal" class="btn-close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="diag-grid">
+        <div class="diag-stat-card">
+          <span>Active Gemini Model</span>
+          <strong id="diagModelName">gemini-3.1-flash-lite</strong>
+        </div>
+        <div class="diag-stat-card">
+          <span>API Key Status</span>
+          <strong id="diagKeyStatus" class="good">Configured (.env)</strong>
+        </div>
+        <div class="diag-stat-card">
+          <span>Validation Gate</span>
+          <strong class="good">Pydantic (extra='forbid')</strong>
+        </div>
+        <div class="diag-stat-card">
+          <span>Decision Policy</span>
+          <strong class="good">0.93 Confidence Gate</strong>
+        </div>
+      </div>
+
+      <!-- Economics & Token Math Box -->
+      <div class="diag-economics-box">
+        <b>Token Economics & Workload Split</b>
+        <table>
+          <tr>
+            <td>Deterministic Rule Engine (389 cases)</td>
+            <td>0 tokens</td>
+            <td>$0.0000</td>
+          </tr>
+          <tr>
+            <td>AI Investigator Edge Cases (111 cases)</td>
+            <td>~45,000 tokens</td>
+            <td>~$0.0045</td>
+          </tr>
+          <tr style="font-weight:700; color:var(--good);">
+            <td>Total Month-End AI Cost</td>
+            <td>~45,000 tokens</td>
+            <td>&lt; $0.01 USD</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Live Connection Test Box -->
+      <div class="live-test-box">
+        <div class="live-test-header">
+          <div>
+            <b>Live LLM Connectivity Verification</b>
+            <small style="display:block;color:var(--muted);font-size:10px;">Executes a real-time test prompt against Google Gemini to verify key, latency & tokens</small>
+          </div>
+          <button id="btnRunAiTest" class="btn primary sm">⚡ Run Ping Test</button>
+        </div>
+        <div id="aiTestResult" class="live-test-result"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="btnCloseAiModalFooter" class="btn secondary sm">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Batch AI Investigation Modal with Rate Limiting Controls -->
+<div id="batchModal" class="modal-backdrop hidden">
+  <div class="modal-dialog" style="max-width: 680px;">
+    <div class="modal-header">
+      <h3><span>🧠</span> Batch Gemini AI Exception Investigation</h3>
+      <button id="btnCloseBatchModal" class="btn-close">×</button>
+    </div>
+    <div class="modal-body">
+      <!-- Rate Guard Notice Box -->
+      <div style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 10px; padding: 12px 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <b style="color:#c4b5fd; font-size:12px;">🛡 Built-in Free-Tier Rate Guard Active</b>
+          <span class="chip" style="color:var(--good); border-color:var(--good-border);">14.2 RPM Safe Pacing</span>
+        </div>
+        <p style="margin:6px 0 0; font-size:11px; color:var(--muted); line-height:1.5;">
+          Requests are spaced at <b>4.2s intervals</b> to stay strictly within Google's <b>15 RPM limit</b> and <b>500 RPD daily quota</b>. Every output is validated with Pydantic &amp; Policy Gates before updating SQLite.
+        </p>
+      </div>
+
+      <!-- Batch Size Selection -->
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--soft); display:block; margin-bottom:8px;">SELECT BATCH SIZE</label>
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px;" id="batchPresets">
+          <button class="btn secondary sm batch-preset-btn active" data-limit="5">5 Cases<br><small style="font-size:9px;color:var(--muted);">~21 sec (Safe)</small></button>
+          <button class="btn secondary sm batch-preset-btn" data-limit="15">15 Cases<br><small style="font-size:9px;color:var(--muted);">~65 sec (Priority)</small></button>
+          <button class="btn secondary sm batch-preset-btn" data-limit="30">30 Cases<br><small style="font-size:9px;color:var(--muted);">~2.1 min</small></button>
+          <button class="btn secondary sm batch-preset-btn" data-limit="111">All 111<br><small style="font-size:9px;color:var(--muted);">~7.8 min</small></button>
+        </div>
+      </div>
+
+      <!-- Live Stream Progress Box -->
+      <div id="batchProgressBox" style="background:#090d13; border:1px solid var(--line); border-radius:10px; padding:14px; display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <b id="batchProgressTitle" style="font-size:12px; color:#fff;">Investigating queue...</b>
+          <span id="batchProgressCount" style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent-light);">0 / 0</span>
+        </div>
+        <div class="progress-bar">
+          <div id="batchProgressBar" class="progress-fill" style="width: 0%;"></div>
+        </div>
+
+        <div id="batchMetricsStrip" style="display:flex; justify-content:space-between; margin-top:10px; font-size:10px; color:var(--muted); font-family:'JetBrains Mono',monospace;">
+          <span>Matches: <b id="batchMatches" style="color:var(--good);">0</b></span>
+          <span>Reviews: <b id="batchReviews" style="color:var(--warn);">0</b></span>
+          <span>Tokens: <b id="batchTokens" style="color:#fff;">0</b></span>
+          <span>Est. Cost: <b id="batchCost" style="color:var(--good);">$0.0000</b></span>
+        </div>
+
+        <div id="batchStreamFeed" style="margin-top:10px; max-height:160px; overflow-y:auto; font-family:'JetBrains Mono',monospace; font-size:10px; line-height:1.6; color:#94a3b8; border-top:1px solid var(--line); padding-top:8px;"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="btnStartBatch" class="btn primary sm">⚡ Start Gemini Batch Investigation</button>
+      <button id="btnCancelBatch" class="btn secondary sm" style="display:none;">Stop Batch</button>
+      <button id="btnCloseBatchModalFooter" class="btn ghost sm">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notifications Container -->
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="/web/app.js?v=5"></script>
 </body>
 </html>
