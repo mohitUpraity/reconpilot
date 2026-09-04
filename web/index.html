@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ReconPilot</title><link rel="stylesheet" href="/web/styles.css"></head>
+<body>
+<div class="shell">
+<aside class="side"><div class="brand"><div class="logo">R</div><div><b>ReconPilot</b><small>AI Finance Controller</small></div></div>
+<nav><button data-view="overview" class="active">Overview</button><button data-view="reconciliation">Reconciliation</button><button data-view="exceptions">Exceptions</button><button data-view="audit">Audit Trail</button></nav>
+<div class="online"><i></i>Controller online</div></aside>
+<main class="main">
+<header class="top"><div><div class="eyebrow">MONTH-END CONTROL</div><h1 id="title">Finance overview</h1></div><div class="actions"><span class="chip">Demo Merchant</span><button id="refresh">Refresh</button></div></header>
+<section id="overview" class="view active"><div class="cards"><div class="card primary"><span>RECONCILIATION HEALTH</span><strong id="health">—</strong><small id="healthNote">Loading…</small></div><div class="card"><span>RECORDS</span><strong id="records">—</strong><small>Normalized in DB</small></div><div class="card"><span>RECONCILED</span><strong id="reconciled">—</strong><small id="reconciledRate">—</small></div><div class="card"><span>EXCEPTIONS</span><strong id="exceptions">—</strong><small>Review + unresolved</small></div></div>
+<div class="grid"><section class="panel"><div class="ph"><div><b>Source coverage</b><small>Financial records in the controller</small></div></div><div id="sources" class="sources"></div></section>
+<section class="panel"><div class="ph"><div><b>Agent activity</b><small>Latest audit events</small></div></div><div id="activity" class="activity"></div></section></div></section>
+<section id="reconciliation" class="view"><div class="toolbar"><div class="filters"><button class="f active" data-status="">All</button><button class="f" data-status="RECONCILED">Reconciled</button><button class="f" data-status="REVIEW">Review</button><button class="f" data-status="UNRESOLVED">Unresolved</button></div></div><section class="panel"><div class="ph"><div><b>Reconciliation cases</b><small>Persistent decisions from the finance controller</small></div><span id="caseCount" class="count">0</span></div><div id="cases" class="list"></div></section></section>
+<section id="exceptions" class="view"><section class="panel"><div class="ph"><div><b>Exception queue</b><small>Cases that should not be silently closed</small></div><span id="excCount" class="count">0</span></div><div id="excList" class="list"></div></section></section>
+<section id="audit" class="view"><section class="panel"><div class="ph"><div><b>Audit trail</b><small>Controller decisions and source events</small></div></div><div id="auditList" class="audit"></div></section></section>
+</main></div>
+<div id="drawer" class="drawer hidden"><div id="shade"></div><aside><div class="drawerTop"><div><div class="eyebrow">CASE DETAIL</div><h2 id="dtitle">—</h2></div><button id="close">×</button></div><div id="detail"></div></aside></div>
+<script src="/web/app.js"></script></body></html>

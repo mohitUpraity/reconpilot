@@ -1,0 +1,532 @@
+payment_id,order_id,invoice_reference,payment_date,amount,currency,method,status,customer_name,description
+pay_000001,order_0100002,INV-0001,2026-07-13,25000,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000002,order_0100003,INV-0002,2026-08-10,33100,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000003,order_0100004,INV-0003,2026-08-18,2285600,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000004,order_0100005,INV-0004,2026-07-29,273100,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000005,order_0100006,0005,2026-08-02,139600,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000006,order_0100007,INV-0006,2026-07-16,31700,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000007,order_0100008,INV-0007,2026-08-25,18579,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000008,order_0100009,INV-0007,2026-08-12,14121,INR,upi,captured,SilverOak Education,Payment for SilverOak Education
+pay_000009,order_0100010,INV-0008,2026-07-21,141300,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000010,order_0100011,INV-0009,2026-08-11,27400,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000011,order_0100012,INV-0010,2026-08-26,63600,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000012,order_0100013,INV-0011,2026-08-23,1533600,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000013,order_0100014,INV-0012,2026-09-14,1796400,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000014,order_0100015,INV-0013,2026-08-26,2412100,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000015,order_0100016,INV-0014,2026-09-14,78600,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000016,order_0100017,INV-0015,2026-08-22,1750400,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000017,order_0100018,INV-0016,2026-08-29,462400,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000018,order_0100019,INV 0018,2026-07-21,55200,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000019,order_0100020,INV-0019,2026-07-25,14606,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000020,order_0100021,INV-0019,2026-07-18,18694,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000021,order_0100022,INV-0020,2026-08-24,24100,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000022,order_0100023,INV-0022,2026-08-29,320800,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000023,order_0100024,INV-0023,2026-08-16,29200,INR,upi,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000024,order_0100025,INV-0024,2026-07-30,68300,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000025,order_0100026,INV-0025,2026-08-12,470800,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000026,order_0100027,INV-0026,2026-09-11,2371100,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000027,order_0100028,INV-0027,2026-10-08,139700,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000028,order_0100029,INV-0028,2026-08-30,383536,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000029,order_0100030,,2026-09-09,315064,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000030,order_0100031,INV-0029,2026-08-28,2257300,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000031,order_0100032,INV-0030,2026-08-13,747000,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000032,order_0100033,INV-0031,2026-08-18,10694,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000033,order_0100034,INV-0031,2026-08-11,8506,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000034,order_0100035,,2026-07-22,457489,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000035,order_0100036,INV-0032,2026-08-11,742911,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000036,order_0100037,INV 0033,2026-08-07,479500,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000037,order_0100038,INV-0034,2026-10-03,13446,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000038,order_0100039,,2026-09-20,8454,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000039,order_0100040,INV-0035,2026-08-02,42500,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000040,order_0100041,INV-0036,2026-07-07,1270700,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000041,order_0100042,INV-0037,2026-08-30,768600,INR,netbanking,captured,Vertex Components,Payment for Vertex Components
+pay_000042,order_0100043,INV-0038,2026-08-25,50400,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000043,order_0100044,INV-0039,2026-08-19,29700,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000044,order_0100045,INV-0041,2026-07-27,164600,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000045,order_0100046,INV-0043,2026-07-19,326600,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000046,order_0100047,INV 0044,2026-09-15,1365000,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000047,order_0100048,INV-0045,2026-09-09,20300,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000048,order_0100049,INV-0046,2026-07-13,2307700,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000049,order_0100050,INV 0047,2026-07-18,41800,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000050,order_0100051,INV-0048,2026-08-26,86000,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000051,order_0100052,INV-0050,2026-08-13,1588500,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000052,order_0100053,INV-0051,2026-08-31,308152,INR,upi,captured,SilverOak Education,Payment for SilverOak Education
+pay_000053,order_0100054,INV-0051,2026-09-12,546048,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000054,order_0100055,INV-0052,2026-08-17,476100,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000055,order_0100056,INV-0053,2026-09-05,1132800,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000056,order_0100057,INV-0055,2026-09-17,22500,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000057,order_0100058,INV-0056,2026-08-16,496380,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000058,order_0100059,INV-0056,2026-08-07,382520,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000059,order_0100060,INV-0057,2026-07-27,40000,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000060,order_0100061,INV 0058,2026-08-15,371700,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000061,order_0100062,INV-0059,2026-08-23,75600,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000062,order_0100063,,2026-07-29,33700,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000063,order_0100064,INV-0061,2026-08-10,1200200,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000064,order_0100065,,2026-08-19,216200,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000065,order_0100066,INV-0063,2026-08-14,23700,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000066,order_0100067,0064,2026-08-14,61200,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000067,order_0100068,INV-0065,2026-08-05,24200,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000068,order_0100069,,2026-08-12,897600,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000069,order_0100070,INV-0067,2026-08-24,2154000,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000070,order_0100071,INV-0068,2026-08-20,206100,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000071,order_0100072,INV-0069,2026-08-14,62500,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000072,order_0100073,INV-0070,2026-09-04,47700,INR,card,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000073,order_0100074,INV 0071,2026-08-25,26400,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000074,order_0100075,INV-0072,2026-08-11,295300,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000075,order_0100076,INV-0073,2026-09-14,78200,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000076,order_0100077,INV-0074,2026-08-10,24734,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000077,order_0100078,,2026-08-20,35166,INR,upi,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000078,order_0100079,INV-0075,2026-07-15,28000,INR,netbanking,captured,Vertex Components,Payment for Vertex Components
+pay_000079,order_0100080,INV-0076,2026-10-10,206500,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000080,order_0100081,INV-0077,2026-08-29,489600,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000081,order_0100082,INV-0078,2026-07-20,26900,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000082,order_0100083,INV-0079,2026-07-30,913600,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000083,order_0100084,INV-0080,2026-08-26,24500,INR,card,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000084,order_0100085,0081,2026-07-26,1522200,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000085,order_0100086,INV-0082,2026-07-15,33100,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000086,order_0100087,INV-0083,2026-09-11,1637700,INR,card,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000087,order_0100088,INV 0084,2026-09-07,18300,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000088,order_0100089,INV-0085,2026-09-04,172100,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000089,order_0100090,INV-0086,2026-09-16,438200,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000090,order_0100091,0087,2026-09-03,1299000,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000091,order_0100092,INV 0088,2026-08-11,26833,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000092,order_0100093,,2026-08-09,38467,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000093,order_0100094,INV-0089,2026-09-14,460500,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000094,order_0100095,INV 0090,2026-07-20,76800,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000095,order_0100096,0091,2026-08-27,107000,INR,upi,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000096,order_0100097,INV-0092,2026-07-28,251100,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000097,order_0100098,INV-0093,2026-09-02,285800,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000098,order_0100099,INV 0094,2026-09-04,46100,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000099,order_0100100,INV-0096,2026-07-23,23800,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000100,order_0100101,INV-0097,2026-07-28,913700,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000101,order_0100102,INV-0099,2026-10-10,1813000,INR,upi,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000102,order_0100103,INV-0100,2026-08-30,432200,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000103,order_0100104,INV-0101,2026-08-12,1239500,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000104,order_0100105,INV-0103,2026-09-01,73800,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000105,order_0100106,INV-0104,2026-07-28,2445800,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000106,order_0100107,INV-0105,2026-08-30,381500,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000107,order_0100108,INV-0106,2026-08-15,28458,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000108,order_0100109,,2026-08-15,17342,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000109,order_0100110,,2026-07-23,424600,INR,upi,captured,SilverOak Education,Payment for SilverOak Education
+pay_000110,order_0100111,INV-0108,2026-09-18,2139900,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000111,order_0100112,INV 0109,2026-08-25,26200,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000112,order_0100113,INV-0110,2026-09-07,1074000,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000113,order_0100114,INV-0111,2026-09-10,22600,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000114,order_0100115,0112,2026-08-02,1580700,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000115,order_0100116,INV-0113,2026-09-22,286200,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000116,order_0100117,INV 0114,2026-09-02,2277900,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000117,order_0100118,INV-0115,2026-08-17,33900,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000118,order_0100119,INV-0116,2026-08-06,29200,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000119,order_0100120,INV-0117,2026-08-13,544800,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000120,order_0100121,INV-0119,2026-08-06,82700,INR,card,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000121,order_0100122,INV 0120,2026-08-13,33300,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000122,order_0100123,INV-0121,2026-09-22,422600,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000123,order_0100124,INV-0122,2026-09-10,69600,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000124,order_0100125,INV-0124,2026-07-16,32600,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000125,order_0100126,,2026-08-25,20500,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000126,order_0100127,INV-0127,2026-07-23,28400,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000127,order_0100128,INV-0129,2026-09-09,41800,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000128,order_0100129,INV-0130,2026-07-25,422976,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000129,order_0100130,INV 0130,2026-08-14,406324,INR,netbanking,captured,Vertex Components,Payment for Vertex Components
+pay_000130,order_0100131,INV-0131,2026-09-01,426100,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000131,order_0100132,INV-0132,2026-07-11,61000,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000132,order_0100133,INV-0133,2026-08-28,74900,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000133,order_0100134,,2026-08-22,103800,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000134,order_0100135,,2026-08-22,222500,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000135,order_0100136,INV 0136,2026-08-24,197100,INR,upi,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000136,order_0100137,INV-0137,2026-07-27,18620,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000137,order_0100138,INV-0137,2026-07-25,16180,INR,netbanking,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000138,order_0100139,INV-0138,2026-09-06,71000,INR,netbanking,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000139,order_0100140,INV-0139,2026-08-08,470000,INR,upi,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000140,order_0100141,INV-0140,2026-09-14,472500,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000141,order_0100142,INV-0141,2026-08-04,497900,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000142,order_0100143,,2026-09-02,25500,INR,card,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000143,order_0100144,INV-0143,2026-07-21,446400,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000144,order_0100145,INV-0144,2026-07-11,286200,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000145,order_0100146,INV-0145,2026-09-07,20700,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000146,order_0100147,INV-0146,2026-07-29,360200,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000147,order_0100148,INV-0147,2026-07-21,18900,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000148,order_0100149,INV-0148,2026-08-09,2270100,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000149,order_0100150,INV-0150,2026-07-10,282100,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000150,order_0100151,INV 0152,2026-08-04,34900,INR,upi,captured,SilverOak Education,Payment for SilverOak Education
+pay_000151,order_0100152,INV-0153,2026-08-06,50500,INR,upi,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000152,order_0100153,INV-0154,2026-09-11,26400,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000153,order_0100154,INV-0155,2026-08-16,45600,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000154,order_0100155,INV 0156,2026-09-07,106400,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000155,order_0100156,INV-0157,2026-08-01,19600,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000156,order_0100157,INV-0158,2026-08-28,34800,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000157,order_0100158,INV-0159,2026-09-26,2106500,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000158,order_0100159,INV-0160,2026-07-22,212600,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000159,order_0100160,INV-0161,2026-09-05,29600,INR,upi,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000160,order_0100161,INV-0162,2026-09-12,1248700,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000161,order_0100162,,2026-08-26,274800,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000162,order_0100163,INV-0164,2026-09-14,19700,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000163,order_0100164,INV-0165,2026-08-20,124500,INR,netbanking,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000164,order_0100165,INV-0166,2026-08-16,217800,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000165,order_0100166,0167,2026-08-04,21900,INR,card,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000166,order_0100167,INV-0168,2026-08-10,25100,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000167,order_0100168,INV-0169,2026-09-09,211900,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000168,order_0100169,INV-0170,2026-09-15,73600,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000169,order_0100170,INV-0171,2026-08-02,61400,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000170,order_0100171,INV-0172,2026-07-29,19300,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000171,order_0100172,INV-0173,2026-08-20,62600,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000172,order_0100173,INV-0174,2026-07-24,2443500,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000173,order_0100174,INV-0175,2026-07-11,70600,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000174,order_0100175,INV-0176,2026-08-24,24500,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000175,order_0100176,INV-0177,2026-08-08,388200,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000176,order_0100177,INV-0178,2026-08-28,288300,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000177,order_0100178,INV-0179,2026-08-26,265900,INR,upi,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000178,order_0100179,INV-0180,2026-08-26,62300,INR,upi,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000179,order_0100180,INV-0181,2026-08-22,84500,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000180,order_0100181,INV-0182,2026-07-24,179400,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000181,order_0100182,INV-0183,2026-08-17,45200,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000182,order_0100183,INV-0184,2026-09-06,2119100,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000183,order_0100184,INV-0185,2026-09-29,360200,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000184,order_0100185,0186,2026-09-08,34100,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000185,order_0100186,INV-0187,2026-09-12,123300,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000186,order_0100187,INV-0188,2026-08-30,1759800,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000187,order_0100188,,2026-08-28,86500,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000188,order_0100189,INV-0190,2026-08-10,19500,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000189,order_0100190,INV-0191,2026-07-10,62400,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000190,order_0100191,INV-0192,2026-09-10,28400,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000191,order_0100192,INV 0193,2026-07-24,328500,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000192,order_0100193,INV-0194,2026-08-16,338600,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000193,order_0100194,INV-0195,2026-09-22,390300,INR,upi,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000194,order_0100195,INV-0196,2026-10-01,21200,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000195,order_0100196,INV-0197,2026-08-05,58500,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000196,order_0100197,INV 0198,2026-08-27,80824,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000197,order_0100198,INV 0198,2026-08-20,82576,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000198,order_0100199,INV-0199,2026-08-16,929400,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000199,order_0100200,INV 0201,2026-07-25,658560,INR,card,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000200,order_0100201,INV-0201,2026-08-05,855440,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000201,order_0100202,INV-0203,2026-07-30,139727,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000202,order_0100203,INV-0203,2026-07-20,222873,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000203,order_0100204,INV-0204,2026-08-19,412500,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000204,order_0100205,INV-0205,2026-07-27,744470,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000205,order_0100206,INV-0205,2026-08-19,483030,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000206,order_0100207,INV-0206,2026-07-16,60200,INR,netbanking,captured,Vertex Components,Payment for Vertex Components
+pay_000207,order_0100208,INV-0207,2026-08-05,481200,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000208,order_0100209,INV-0208,2026-07-23,954700,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000209,order_0100210,INV 0209,2026-09-01,989900,INR,netbanking,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000210,order_0100211,INV-0210,2026-07-31,1875600,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000211,order_0100212,INV-0211,2026-09-03,67400,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000212,order_0100213,INV-0212,2026-08-15,2369900,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000213,order_0100214,INV-0213,2026-07-17,19700,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000214,order_0100215,INV-0214,2026-07-09,242432,INR,netbanking,captured,Sunrise Health,Payment for Sunrise Health
+pay_000215,order_0100216,INV-0214,2026-07-31,163668,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000216,order_0100217,INV-0215,2026-07-19,77600,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000217,order_0100218,INV-0216,2026-08-04,75600,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000218,order_0100219,,2026-08-01,25500,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000219,order_0100220,INV-0218,2026-08-31,64200,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000220,order_0100221,INV-0219,2026-09-05,211900,INR,upi,captured,SilverOak Education,Payment for SilverOak Education
+pay_000221,order_0100222,INV-0220,2026-09-19,1112100,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000222,order_0100223,INV-0221,2026-09-01,758600,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000223,order_0100224,INV-0222,2026-07-23,49902,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000224,order_0100225,INV-0222,2026-08-04,82798,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000225,order_0100226,INV-0223,2026-09-18,1651900,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000226,order_0100227,INV-0224,2026-09-03,33700,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000227,order_0100228,INV-0225,2026-08-12,2490800,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000228,order_0100229,INV-0226,2026-07-29,27200,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000229,order_0100230,INV-0227,2026-08-15,62700,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000230,order_0100231,INV-0228,2026-07-26,89100,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000231,order_0100232,INV 0230,2026-08-31,742600,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000232,order_0100233,INV-0231,2026-08-13,155028,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000233,order_0100234,0231,2026-08-09,87272,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000234,order_0100235,INV 0232,2026-07-30,66000,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000235,order_0100236,INV-0233,2026-08-25,326900,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000236,order_0100237,INV 0234,2026-07-17,2068400,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000237,order_0100238,INV-0235,2026-08-23,743000,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000238,order_0100239,INV-0236,2026-07-31,72700,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000239,order_0100240,INV-0237,2026-09-05,66500,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000240,order_0100241,INV-0238,2026-08-27,201676,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000241,order_0100242,INV-0238,2026-09-08,283624,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000242,order_0100243,INV-0239,2026-07-26,21200,INR,upi,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000243,order_0100244,INV 0240,2026-08-14,148954,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000244,order_0100245,INV-0240,2026-08-19,206746,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000245,order_0100246,INV-0241,2026-07-06,488500,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000246,order_0100247,INV 0242,2026-08-07,112400,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000247,order_0100248,INV-0243,2026-08-16,28300,INR,card,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000248,order_0100249,INV 0244,2026-09-26,215694,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000249,order_0100250,0244,2026-08-12,132706,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000250,order_0100251,INV-0245,2026-08-31,28200,INR,upi,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000251,order_0100252,INV-0246,2026-08-05,29500,INR,netbanking,captured,Sunrise Health,Payment for Sunrise Health
+pay_000252,order_0100253,INV-0248,2026-08-12,1182792,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000253,order_0100254,INV-0248,2026-08-13,846808,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000254,order_0100255,INV-0249,2026-07-03,65800,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000255,order_0100256,INV-0250,2026-07-25,461400,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000256,order_0100257,INV-0251,2026-07-24,1698500,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000257,order_0100258,INV-0252,2026-07-15,740900,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000258,order_0100259,INV-0254,2026-08-17,88000,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000259,order_0100260,INV-0255,2026-08-08,1591300,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000260,order_0100261,INV-0256,2026-09-04,87600,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000261,order_0100262,INV-0257,2026-09-22,2170200,INR,card,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000262,order_0100263,INV-0258,2026-08-05,859100,INR,upi,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000263,order_0100264,INV-0259,2026-09-12,64200,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000264,order_0100265,INV-0260,2026-08-24,72200,INR,card,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000265,order_0100266,INV 0261,2026-07-21,1527900,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000266,order_0100267,INV-0262,2026-08-28,30800,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000267,order_0100268,INV-0264,2026-10-08,1366200,INR,netbanking,captured,Sunrise Health,Payment for Sunrise Health
+pay_000268,order_0100269,INV-0265,2026-08-11,498500,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000269,order_0100270,INV-0266,2026-09-01,242800,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000270,order_0100271,INV-0267,2026-10-08,241300,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000271,order_0100272,INV-0268,2026-08-12,73500,INR,netbanking,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000272,order_0100273,INV-0269,2026-08-06,45500,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000273,order_0100274,INV-0270,2026-09-21,828300,INR,upi,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000274,order_0100275,INV-0271,2026-07-17,1017500,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000275,order_0100276,INV 0272,2026-10-06,181600,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000276,order_0100277,,2026-09-16,16312,INR,upi,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000277,order_0100278,INV-0273,2026-09-03,18288,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000278,order_0100279,INV-0275,2026-09-16,10048,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000279,order_0100280,INV-0275,2026-09-22,8852,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000280,order_0100281,INV 0276,2026-08-15,27133,INR,upi,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000281,order_0100282,INV-0276,2026-09-04,40667,INR,card,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000282,order_0100283,INV-0277,2026-08-10,166500,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000283,order_0100284,INV-0278,2026-08-24,69000,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000284,order_0100285,INV 0279,2026-08-29,784200,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000285,order_0100286,INV-0280,2026-07-15,201600,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000286,order_0100287,,2026-09-29,26400,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000287,order_0100288,INV-0282,2026-08-22,148400,INR,card,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000288,order_0100289,INV-0283,2026-08-11,475200,INR,upi,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000289,order_0100290,,2026-08-21,185655,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000290,order_0100291,0284,2026-08-08,220545,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000291,order_0100292,INV-0285,2026-10-03,81000,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000292,order_0100293,INV-0286,2026-09-13,16619,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000293,order_0100294,INV-0286,2026-09-13,14781,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000294,order_0100295,INV-0287,2026-07-14,100438,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000295,order_0100296,INV-0287,2026-07-30,60862,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000296,order_0100297,INV-0288,2026-07-17,2172300,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000297,order_0100298,INV-0289,2026-08-31,1346125,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000298,order_0100299,INV-0289,2026-08-09,984875,INR,netbanking,captured,Sunrise Health,Payment for Sunrise Health
+pay_000299,order_0100300,INV-0290,2026-09-01,53000,INR,card,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000300,order_0100301,INV-0291,2026-09-05,726100,INR,upi,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000301,order_0100302,INV-0293,2026-09-24,44100,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000302,order_0100303,INV-0294,2026-07-31,60100,INR,card,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000303,order_0100304,INV-0295,2026-07-17,2284000,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000304,order_0100305,INV-0297,2026-08-27,18800,INR,netbanking,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000305,order_0100306,INV-0298,2026-07-16,70600,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000306,order_0100307,INV-0299,2026-08-08,51100,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000307,order_0100308,INV-0300,2026-08-02,70600,INR,card,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000308,order_0100309,INV-0301,2026-08-13,55300,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000309,order_0100310,INV-0302,2026-08-12,104747,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000310,order_0100311,INV-0302,2026-09-21,136253,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000311,order_0100312,INV-0303,2026-08-11,2262600,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000312,order_0100313,INV-0305,2026-08-15,204400,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000313,order_0100314,INV-0306,2026-08-08,20300,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000314,order_0100315,INV-0307,2026-08-24,49600,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000315,order_0100316,INV-0309,2026-07-16,751648,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000316,order_0100317,0309,2026-08-27,418452,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000317,order_0100318,INV-0310,2026-07-24,318500,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000318,order_0100319,INV-0311,2026-09-29,235755,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000319,order_0100320,0311,2026-10-09,193045,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000320,order_0100321,INV-0312,2026-09-06,68800,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000321,order_0100322,INV-0313,2026-09-15,47800,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000322,order_0100323,INV-0314,2026-09-11,486400,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000323,order_0100324,INV-0315,2026-08-24,48600,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000324,order_0100325,INV 0316,2026-08-07,31800,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000325,order_0100326,INV-0317,2026-08-30,18100,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000326,order_0100327,INV-0318,2026-08-28,2083300,INR,netbanking,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000327,order_0100328,INV-0319,2026-09-24,316800,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000328,order_0100329,INV-0320,2026-09-27,45400,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000329,order_0100330,INV-0321,2026-08-26,27000,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000330,order_0100331,INV-0322,2026-08-03,23700,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000331,order_0100332,INV 0323,2026-08-30,19400,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000332,order_0100333,INV-0324,2026-09-09,32400,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000333,order_0100334,INV-0325,2026-09-17,271462,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000334,order_0100335,INV-0325,2026-09-26,207038,INR,netbanking,captured,Vertex Components,Payment for Vertex Components
+pay_000335,order_0100336,INV-0327,2026-07-23,55300,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000336,order_0100337,INV-0328,2026-08-24,27800,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000337,order_0100338,INV-0329,2026-07-22,443500,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000338,order_0100339,INV 0330,2026-08-27,1395600,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000339,order_0100340,INV 0331,2026-08-06,2419700,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000340,order_0100341,INV 0332,2026-07-25,1005300,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000341,order_0100342,INV-0334,2026-08-09,1114000,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000342,order_0100343,INV 0335,2026-09-06,20600,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000343,order_0100344,INV 0336,2026-08-22,18300,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000344,order_0100345,INV-0337,2026-09-07,66600,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000345,order_0100346,INV-0338,2026-08-21,168400,INR,upi,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000346,order_0100347,INV-0339,2026-08-25,1308000,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000347,order_0100348,INV-0340,2026-08-15,41849,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000348,order_0100349,INV-0340,2026-08-12,60851,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000349,order_0100350,INV-0341,2026-09-28,57100,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000350,order_0100351,INV-0342,2026-09-06,172700,INR,upi,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000351,order_0100352,INV 0343,2026-10-06,1567800,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000352,order_0100353,INV-0344,2026-07-30,87700,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000353,order_0100354,INV 0345,2026-07-29,23300,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000354,order_0100355,INV-0346,2026-09-29,47100,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000355,order_0100356,INV-0347,2026-10-08,2459300,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000356,order_0100357,INV-0348,2026-08-09,31900,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000357,order_0100358,INV-0350,2026-09-23,40500,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000358,order_0100359,INV-0351,2026-08-11,59100,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000359,order_0100360,INV 0352,2026-08-04,25500,INR,netbanking,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000360,order_0100361,INV-0353,2026-08-09,1177800,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000361,order_0100362,INV 0354,2026-08-09,26100,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000362,order_0100363,INV-0355,2026-08-22,87600,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000363,order_0100364,,2026-09-03,51800,INR,card,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000364,order_0100365,INV 0357,2026-08-18,1146500,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000365,order_0100366,INV 0358,2026-07-15,23200,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000366,order_0100367,INV-0359,2026-08-18,287400,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000367,order_0100368,INV-0360,2026-08-20,33200,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000368,order_0100369,INV-0361,2026-08-12,25600,INR,upi,captured,SilverOak Education,Payment for SilverOak Education
+pay_000369,order_0100370,INV-0362,2026-07-28,45900,INR,upi,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000370,order_0100371,INV-0363,2026-08-18,1108600,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000371,order_0100372,INV-0364,2026-09-08,48500,INR,netbanking,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000372,order_0100373,INV-0365,2026-08-16,88700,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000373,order_0100374,INV-0366,2026-08-15,1861900,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000374,order_0100375,INV-0367,2026-08-11,54900,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000375,order_0100376,INV 0368,2026-09-05,32400,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000376,order_0100377,,2026-09-25,636300,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000377,order_0100378,INV 0370,2026-07-18,113200,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000378,order_0100379,INV-0371,2026-08-20,79700,INR,upi,captured,SilverOak Education,Payment for SilverOak Education
+pay_000379,order_0100380,INV-0372,2026-09-03,72300,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000380,order_0100381,,2026-07-16,57900,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000381,order_0100382,INV-0374,2026-08-16,32600,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000382,order_0100383,INV-0375,2026-09-04,54100,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000383,order_0100384,INV 0376,2026-08-11,158200,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000384,order_0100385,INV-0377,2026-08-15,805000,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000385,order_0100386,INV-0378,2026-09-04,14821,INR,upi,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000386,order_0100387,0378,2026-09-09,14779,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000387,order_0100388,INV-0379,2026-08-19,29700,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000388,order_0100389,INV-0380,2026-07-24,209900,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000389,order_0100390,INV-0381,2026-08-26,26700,INR,card,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000390,order_0100391,INV-0382,2026-09-18,1017600,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000391,order_0100392,INV-0383,2026-07-18,34600,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000392,order_0100393,INV-0384,2026-08-17,35000,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000393,order_0100394,INV-0385,2026-09-09,28900,INR,upi,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000394,order_0100395,INV-0386,2026-08-03,31200,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000395,order_0100396,INV-0387,2026-07-14,1250200,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000396,order_0100397,INV-0388,2026-07-19,58800,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000397,order_0100398,INV 0389,2026-08-19,34400,INR,upi,captured,SilverOak Education,Payment for SilverOak Education
+pay_000398,order_0100399,INV 0390,2026-09-07,996000,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000399,order_0100400,INV-0391,2026-09-09,20200,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000400,order_0100401,INV-0392,2026-08-16,157200,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000401,order_0100402,INV-0393,2026-08-13,83400,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000402,order_0100403,INV 0394,2026-07-23,1284200,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000403,order_0100404,INV-0395,2026-08-05,46317,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000404,order_0100405,INV-0395,2026-08-08,58583,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000405,order_0100406,INV-0397,2026-07-14,43400,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000406,order_0100407,INV-0398,2026-08-30,2141800,INR,netbanking,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000407,order_0100408,INV-0400,2026-09-07,359800,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000408,order_0100409,INV 0401,2026-08-31,19400,INR,netbanking,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000409,order_0100410,INV-0402,2026-08-03,35000,INR,upi,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000410,order_0100411,INV-0403,2026-08-23,490300,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000411,order_0100412,INV-0404,2026-08-24,468500,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000412,order_0100413,INV-0405,2026-08-16,24700,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000413,order_0100414,INV-0406,2026-08-04,332100,INR,netbanking,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000414,order_0100415,0407,2026-07-13,9750,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000415,order_0100416,INV-0407,2026-07-08,14050,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000416,order_0100417,INV-0409,2026-08-20,201600,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000417,order_0100418,INV-0410,2026-08-29,65700,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000418,order_0100419,INV-0411,2026-08-05,290500,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000419,order_0100420,INV 0412,2026-08-12,219400,INR,upi,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000420,order_0100421,INV-0413,2026-08-17,89700,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000421,order_0100422,INV-0414,2026-08-01,241800,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000422,order_0100423,INV 0415,2026-09-03,1280400,INR,netbanking,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000423,order_0100424,INV-0416,2026-07-26,1258400,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000424,order_0100425,INV-0417,2026-08-10,937400,INR,upi,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000425,order_0100426,INV-0418,2026-07-13,153500,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000426,order_0100427,INV-0419,2026-10-24,56200,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000427,order_0100428,,2026-07-26,1973100,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000428,order_0100429,INV-0421,2026-08-14,123702,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000429,order_0100430,INV-0421,2026-08-25,102498,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000430,order_0100431,INV-0422,2026-07-19,42000,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000431,order_0100432,INV-0423,2026-09-10,377300,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000432,order_0100433,INV-0424,2026-07-22,68400,INR,netbanking,captured,Nova Technologies,Payment for Nova Technologies
+pay_000433,order_0100434,INV-0425,2026-08-30,40600,INR,upi,captured,Northstar Foods,Payment for Northstar Foods
+pay_000434,order_0100435,0427,2026-10-15,21200,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000435,order_0100436,INV-0428,2026-07-23,1794300,INR,netbanking,captured,Sunrise Health,Payment for Sunrise Health
+pay_000436,order_0100437,INV-0429,2026-08-19,472000,INR,upi,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000437,order_0100438,INV-0430,2026-07-26,352700,INR,netbanking,captured,Vertex Components,Payment for Vertex Components
+pay_000438,order_0100439,INV-0431,2026-09-16,44400,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000439,order_0100440,INV-0432,2026-08-31,563900,INR,upi,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000440,order_0100441,,2026-09-18,212438,INR,card,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000441,order_0100442,INV-0433,2026-08-15,119162,INR,upi,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000442,order_0100443,INV-0434,2026-07-07,33200,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000443,order_0100444,INV-0435,2026-09-04,32900,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000444,order_0100445,INV-0437,2026-08-06,24000,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000445,order_0100446,INV-0438,2026-08-30,177100,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000446,order_0100447,INV-0439,2026-07-25,565300,INR,netbanking,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000447,order_0100448,INV 0440,2026-09-01,393600,INR,netbanking,captured,Vertex Components,Payment for Vertex Components
+pay_000448,order_0100449,INV 0441,2026-08-22,20800,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000449,order_0100450,INV-0442,2026-08-03,55400,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000450,order_0100451,INV-0443,2026-08-23,171300,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000451,order_0100452,INV-0444,2026-08-24,55700,INR,card,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000452,order_0100453,INV-0445,2026-09-03,101577,INR,upi,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000453,order_0100454,INV-0445,2026-09-11,72923,INR,upi,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000454,order_0100455,INV-0446,2026-07-20,47200,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000455,order_0100456,INV-0447,2026-07-28,1600100,INR,netbanking,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000456,order_0100457,INV-0448,2026-08-03,26900,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000457,order_0100458,INV-0449,2026-08-18,2115700,INR,netbanking,captured,Sunrise Health,Payment for Sunrise Health
+pay_000458,order_0100459,INV 0450,2026-07-20,73300,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000459,order_0100460,INV-0451,2026-08-30,25500,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000460,order_0100461,INV-0452,2026-10-11,22100,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000461,order_0100462,INV-0453,2026-10-12,1040600,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000462,order_0100463,INV-0454,2026-07-28,385500,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000463,order_0100464,,2026-07-22,2301100,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000464,order_0100465,INV-0456,2026-08-26,2466700,INR,upi,captured,GreenLeaf Distributors,Payment for GreenLeaf Distributors
+pay_000465,order_0100466,INV-0457,2026-08-06,34300,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000466,order_0100467,0458,2026-09-19,2282900,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000467,order_0100468,INV 0459,2026-08-02,1362700,INR,upi,captured,Vertex Components,Payment for Vertex Components
+pay_000468,order_0100469,INV-0460,2026-09-09,11459,INR,card,captured,Vijay Traders,Payment for Vijay Traders
+pay_000469,order_0100470,INV 0460,2026-09-27,20941,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000470,order_0100471,INV-0461,2026-08-20,699800,INR,netbanking,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000471,order_0100472,INV-0462,2026-08-31,196500,INR,netbanking,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000472,order_0100473,INV 0463,2026-09-01,69200,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000473,order_0100474,INV 0464,2026-08-16,89700,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000474,order_0100475,INV-0465,2026-08-23,356900,INR,card,captured,Northstar Foods,Payment for Northstar Foods
+pay_000475,order_0100476,INV 0466,2026-08-30,180322,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000476,order_0100477,,2026-09-08,147478,INR,upi,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000477,order_0100478,INV-0467,2026-08-05,33900,INR,card,captured,Metro Office Systems,Payment for Metro Office Systems
+pay_000478,order_0100479,INV-0468,2026-08-25,245790,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000479,order_0100480,INV-0468,2026-08-25,173510,INR,upi,captured,Nova Technologies,Payment for Nova Technologies
+pay_000480,order_0100481,INV-0469,2026-08-12,2091100,INR,card,captured,Vertex Components,Payment for Vertex Components
+pay_000481,order_0100482,INV-0470,2026-08-20,33800,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000482,order_0100483,INV-0471,2026-08-07,294600,INR,netbanking,captured,Vertex Components,Payment for Vertex Components
+pay_000483,order_0100484,INV-0473,2026-08-05,438200,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000484,order_0100485,INV-0474,2026-08-13,1834200,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000485,order_0100486,0475,2026-08-10,165100,INR,card,captured,SilverOak Education,Payment for SilverOak Education
+pay_000486,order_0100487,INV-0476,2026-07-19,22400,INR,card,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000487,order_0100488,0477,2026-08-10,2021100,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000488,order_0100489,INV-0478,2026-09-01,2446500,INR,netbanking,captured,Northstar Foods,Payment for Northstar Foods
+pay_000489,order_0100490,INV 0479,2026-09-01,26800,INR,netbanking,captured,SilverOak Education,Payment for SilverOak Education
+pay_000490,order_0100491,0480,2026-07-14,79900,INR,upi,captured,Orion Manufacturing,Payment for Orion Manufacturing
+pay_000491,order_0100492,INV-0481,2026-08-13,34600,INR,upi,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000492,order_0100493,INV 0482,2026-08-18,103400,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000493,order_0100494,INV-0483,2026-09-06,1642600,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000494,order_0100495,INV-0484,2026-08-30,103000,INR,card,captured,Sunrise Health,Payment for Sunrise Health
+pay_000495,order_0100496,INV-0485,2026-08-13,25600,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000496,order_0100497,INV-0486,2026-08-11,53300,INR,card,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000497,order_0100498,INV-0487,2026-08-04,60600,INR,upi,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000498,order_0100499,INV-0488,2026-08-14,1825700,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000499,order_0100500,INV 0489,2026-08-31,767689,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000500,order_0100501,INV-0489,2026-08-20,460911,INR,netbanking,captured,Apex Digital Services,Payment for Apex Digital Services
+pay_000501,order_0100502,INV 0490,2026-08-27,83000,INR,card,captured,Kaveri Textiles,Payment for Kaveri Textiles
+pay_000502,order_0100503,,2026-08-05,473800,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000503,order_0100504,INV-0492,2026-08-02,422800,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000504,order_0100505,INV-0493,2026-08-17,30000,INR,netbanking,captured,BluePeak Consulting,Payment for BluePeak Consulting
+pay_000505,order_0100506,INV-0494,2026-08-14,10245,INR,upi,captured,Vijay Traders,Payment for Vijay Traders
+pay_000506,order_0100507,0494,2026-08-13,17455,INR,netbanking,captured,Vijay Traders,Payment for Vijay Traders
+pay_000507,order_0100508,INV-0495,2026-07-15,60900,INR,card,captured,Nova Technologies,Payment for Nova Technologies
+pay_000508,order_0100509,INV 0496,2026-07-16,358400,INR,card,captured,Brightline Logistics,Payment for Brightline Logistics
+pay_000509,order_0100510,INV-0497,2026-08-19,78900,INR,card,captured,Acme Retail Pvt Ltd,Payment for Acme Retail Pvt Ltd
+pay_000510,order_0100511,INV 0498,2026-09-04,1907000,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000511,order_0100512,INV-0499,2026-08-04,7841,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000512,order_0100513,INV 0499,2026-08-06,11059,INR,upi,captured,Sunrise Health,Payment for Sunrise Health
+pay_000513,order_0100514,INV-0500,2026-09-07,74600,INR,card,captured,UrbanNest Interiors,Payment for UrbanNest Interiors
+pay_000514,order_0100515,INV-0302,2026-08-06,241000,INR,card,captured,Orion Manufacturing,Possible duplicate payment for Orion Manufacturing
+pay_000515,order_0100516,INV-0091,2026-08-22,107000,INR,netbanking,captured,Kaveri Textiles,Possible duplicate payment for Kaveri Textiles
+pay_000516,order_0100517,INV-0114,2026-08-28,2277900,INR,upi,captured,Northstar Foods,Possible duplicate payment for Northstar Foods
+pay_000517,order_0100518,INV-0199,2026-08-03,929400,INR,card,captured,Northstar Foods,Possible duplicate payment for Northstar Foods
+pay_000518,order_0100519,INV-0291,2026-07-29,726100,INR,netbanking,captured,Acme Retail Pvt Ltd,Possible duplicate payment for Acme Retail Pvt Ltd
+pay_000519,order_0100520,INV-0438,2026-08-16,177100,INR,upi,captured,GreenLeaf Distributors,Possible duplicate payment for GreenLeaf Distributors
+pay_000520,order_0100521,INV-0318,2026-07-20,2083300,INR,card,captured,Acme Retail Pvt Ltd,Possible duplicate payment for Acme Retail Pvt Ltd
+pay_000521,order_0100522,INV-0182,2026-07-06,179400,INR,upi,captured,Nova Technologies,Possible duplicate payment for Nova Technologies
+pay_000522,order_0100523,INV-0461,2026-08-13,699800,INR,netbanking,captured,UrbanNest Interiors,Possible duplicate payment for UrbanNest Interiors
+pay_000523,order_0100524,INV-0191,2026-07-08,62400,INR,upi,captured,Nova Technologies,Possible duplicate payment for Nova Technologies
+pay_000524,order_0100525,INV-0086,2026-08-14,438200,INR,card,captured,Vertex Components,Possible duplicate payment for Vertex Components
+pay_000525,order_0100526,INV-0457,2026-07-18,34300,INR,card,captured,Acme Retail Pvt Ltd,Possible duplicate payment for Acme Retail Pvt Ltd
+pay_000526,order_0100527,INV-0062,2026-08-21,216200,INR,upi,captured,UrbanNest Interiors,Possible duplicate payment for UrbanNest Interiors
+pay_000527,order_0100528,INV-0487,2026-07-21,60600,INR,card,captured,UrbanNest Interiors,Possible duplicate payment for UrbanNest Interiors
+pay_000528,order_0100529,INV-0314,2026-07-25,486400,INR,card,captured,SilverOak Education,Possible duplicate payment for SilverOak Education
+pay_000529,order_0100530,INV-0404,2026-08-25,468500,INR,netbanking,captured,Nova Technologies,Possible duplicate payment for Nova Technologies
+pay_000530,order_0100531,INV-0080,2026-07-16,24500,INR,card,captured,Apex Digital Services,Possible duplicate payment for Apex Digital Services
+pay_000531,order_0100532,INV-0124,2026-07-16,32600,INR,upi,captured,SilverOak Education,Possible duplicate payment for SilverOak Education

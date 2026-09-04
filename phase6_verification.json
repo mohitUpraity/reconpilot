@@ -1,0 +1,21 @@
+{
+  "financial_records": 1188,
+  "cases": 500,
+  "links": 389,
+  "exceptions": 111,
+  "audit_events": 501,
+  "case_status": {
+    "RECONCILED": 389,
+    "REVIEW": 73,
+    "UNRESOLVED": 38
+  },
+  "sample_reconciled_case": {
+    "case_id": "CASE-F332243A3E",
+    "status": "RECONCILED",
+    "confidence": 0.995,
+    "from_record_id": "merchant:INV:INV-0127",
+    "to_record_id": "payment:pay_000126"
+  },
+  "exceptions_with_cases": 111,
+  "audit_with_cases": 500
+}

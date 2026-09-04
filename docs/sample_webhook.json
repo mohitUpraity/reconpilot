@@ -1,0 +1,20 @@
+{
+  "event_id": "evt_phase5_demo_001",
+  "merchant_id": "merchant_demo",
+  "event_type": "payment.captured",
+  "payload": {
+    "payload": {
+      "payment": {
+        "entity": {
+          "id": "pay_phase5_demo_001",
+          "order_id": "order_phase5_demo_001",
+          "amount": 250000,
+          "currency": "INR",
+          "status": "captured",
+          "created_at": "2026-09-04T10:00:00Z",
+          "description": "Phase 5 demo payment"
+        }
+      }
+    }
+  }
+}
