@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import pytest
 from pydantic import ValidationError
 from ai.decision_models import ReconciliationDecision, ReconciliationPolicyError, validate_business_policy

@@ -1,18 +1,681 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ReconPilot</title><link rel="stylesheet" href="/web/styles.css"></head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReconPilot — AI Finance Control Room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/web/styles.css?v=3">
+</head>
 <body>
 <div class="shell">
-<aside class="side"><div class="brand"><div class="logo">R</div><div><b>ReconPilot</b><small>AI Finance Controller</small></div></div>
-<nav><button data-view="overview" class="active">Overview</button><button data-view="reconciliation">Reconciliation</button><button data-view="exceptions">Exceptions</button><button data-view="audit">Audit Trail</button></nav>
-<div class="online"><i></i>Controller online</div></aside>
-<main class="main">
-<header class="top"><div><div class="eyebrow">MONTH-END CONTROL</div><h1 id="title">Finance overview</h1></div><div class="actions"><span class="chip">Demo Merchant</span><button id="refresh">Refresh</button></div></header>
-<section id="overview" class="view active"><div class="cards"><div class="card primary"><span>RECONCILIATION HEALTH</span><strong id="health">—</strong><small id="healthNote">Loading…</small></div><div class="card"><span>RECORDS</span><strong id="records">—</strong><small>Normalized in DB</small></div><div class="card"><span>RECONCILED</span><strong id="reconciled">—</strong><small id="reconciledRate">—</small></div><div class="card"><span>EXCEPTIONS</span><strong id="exceptions">—</strong><small>Review + unresolved</small></div></div>
-<div class="grid"><section class="panel"><div class="ph"><div><b>Source coverage</b><small>Financial records in the controller</small></div></div><div id="sources" class="sources"></div></section>
-<section class="panel"><div class="ph"><div><b>Agent activity</b><small>Latest audit events</small></div></div><div id="activity" class="activity"></div></section></div></section>
-<section id="reconciliation" class="view"><div class="toolbar"><div class="filters"><button class="f active" data-status="">All</button><button class="f" data-status="RECONCILED">Reconciled</button><button class="f" data-status="REVIEW">Review</button><button class="f" data-status="UNRESOLVED">Unresolved</button></div></div><section class="panel"><div class="ph"><div><b>Reconciliation cases</b><small>Persistent decisions from the finance controller</small></div><span id="caseCount" class="count">0</span></div><div id="cases" class="list"></div></section></section>
-<section id="exceptions" class="view"><section class="panel"><div class="ph"><div><b>Exception queue</b><small>Cases that should not be silently closed</small></div><span id="excCount" class="count">0</span></div><div id="excList" class="list"></div></section></section>
-<section id="audit" class="view"><section class="panel"><div class="ph"><div><b>Audit trail</b><small>Controller decisions and source events</small></div></div><div id="auditList" class="audit"></div></section></section>
-</main></div>
-<div id="drawer" class="drawer hidden"><div id="shade"></div><aside><div class="drawerTop"><div><div class="eyebrow">CASE DETAIL</div><h2 id="dtitle">—</h2></div><button id="close">×</button></div><div id="detail"></div></aside></div>
-<script src="/web/app.js"></script></body></html>
+
+  <!-- Left Sidebar Navigation -->
+  <aside class="side">
+    <div class="brand">
+      <div class="logo">RP</div>
+      <div>
+        <b>ReconPilot</b>
+        <small>AI Finance Control Room</small>
+      </div>
+    </div>
+
+    <div class="nav-section-label">OPERATIONS</div>
+    <nav>
+      <button data-view="overview" class="active">
+        <span class="nav-icon">⛯</span> Control Room
+      </button>
+      <button data-view="import">
+        <span class="nav-icon">📥</span> Import Sources
+      </button>
+      <button data-view="reconciliation">
+        <span class="nav-icon">⚡</span> Reconciliation
+      </button>
+      <button data-view="exceptions">
+        <span class="nav-icon">⚠</span> Exceptions <span id="navExcBadge" class="nav-badge">111</span>
+      </button>
+      <button data-view="review">
+        <span class="nav-icon">👤</span> Human Review <span id="navReviewBadge" class="nav-badge warn">73</span>
+      </button>
+      <button data-view="chain">
+        <span class="nav-icon">⛓</span> Finance Chain
+      </button>
+    </nav>
+
+    <div class="nav-section-label">GOVERNANCE & TRUST</div>
+    <nav>
+      <button data-view="audit">
+        <span class="nav-icon">📋</span> Audit Trail
+      </button>
+      <button data-view="benchmark">
+        <span class="nav-icon">📊</span> Benchmark & Policy
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="online-indicator">
+        <i class="pulse-dot"></i>
+        <div>
+          <b>Controller Online</b>
+          <small id="footerModelTag">Gemini 2.5/3.1 + Gate</small>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main">
+    <!-- Top Action Bar -->
+    <header class="top">
+      <div>
+        <div class="eyebrow">MONTH-END RECONCILIATION · RAZORPAY TRACK 04</div>
+        <h1 id="pageTitle">Control Room</h1>
+      </div>
+      <div class="top-controls">
+        <div class="merchant-badge">
+          <span class="dot"></span> Demo Merchant
+        </div>
+        <div class="date-chip">📅 September 2026</div>
+        <button id="btnImportModal" class="btn secondary">📥 Import Files</button>
+        <button id="btnRunReconcile" class="btn secondary">⚡ Run Reconciliation</button>
+        <button id="btnDemoMode" class="btn primary">▶ Demo Mode (5-Min)</button>
+        <button id="refresh" class="btn ghost" title="Refresh data">↻</button>
+      </div>
+    </header>
+
+    <!-- Guided Demo Overlay / Banner -->
+    <div id="demoBanner" class="demo-banner hidden">
+      <div class="demo-banner-content">
+        <div class="demo-step-badge" id="demoStepBadge">DEMO STEP 1 / 9</div>
+        <div class="demo-step-text">
+          <strong id="demoStepTitle">Starting Demo…</strong>
+          <span id="demoStepDetail">Initializing live financial reconciliation controller.</span>
+        </div>
+        <div class="demo-timer" id="demoTimer">0:00</div>
+      </div>
+      <div class="demo-banner-actions">
+        <button id="btnDemoPause" class="btn ghost sm">Pause</button>
+        <button id="btnDemoSkip" class="btn secondary sm">Skip to Control Room</button>
+      </div>
+    </div>
+
+    <!-- VIEW 1: CONTROL ROOM (OVERVIEW) -->
+    <section id="overview" class="view active">
+
+      <!-- KPI Metrics Strip -->
+      <div class="cards">
+        <div class="card kpi-card">
+          <span class="kpi-label">FINANCIAL RECORDS</span>
+          <strong id="records" class="kpi-val">—</strong>
+          <small class="kpi-sub">Normalized in DB</small>
+        </div>
+        <div class="card kpi-card">
+          <span class="kpi-label">TOTAL CASES</span>
+          <strong id="totalCases" class="kpi-val">—</strong>
+          <small class="kpi-sub">500 Invoices Analyzed</small>
+        </div>
+        <div class="card kpi-card good-accent">
+          <span class="kpi-label">RECONCILED</span>
+          <strong id="reconciled" class="kpi-val">—</strong>
+          <small id="reconciledRate" class="kpi-sub">—</small>
+        </div>
+        <div class="card kpi-card warn-accent">
+          <span class="kpi-label">HUMAN REVIEW</span>
+          <strong id="reviewCount" class="kpi-val">—</strong>
+          <small class="kpi-sub">Needs Reviewer Attention</small>
+        </div>
+        <div class="card kpi-card bad-accent">
+          <span class="kpi-label">EXCEPTIONS</span>
+          <strong id="excStat" class="kpi-val">—</strong>
+          <small class="kpi-sub">Review + Unresolved</small>
+        </div>
+      </div>
+
+      <!-- Live Reconcile Pipeline Centerpiece -->
+      <section class="panel pipeline-panel">
+        <div class="ph">
+          <div>
+            <b>ReconPilot Autonomous Pipeline</b>
+            <small>Deterministic evidence handles obvious matches · AI investigates edge cases · Policy gate safeguards writes</small>
+          </div>
+          <div class="pipeline-status-badge" id="pipelineStatusBadge">
+            <span class="status-indicator live"></span> LIVE STATE
+          </div>
+        </div>
+        <div class="pipeline-container">
+          <div class="pipe-node" id="node-files">
+            <div class="node-icon">📁</div>
+            <div class="node-title">FILES</div>
+            <div class="node-count" id="pipeFilesCount">4 Sources</div>
+            <div class="node-desc">CSV / XLSX Ingest</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node" id="node-normalize">
+            <div class="node-icon">⚙</div>
+            <div class="node-title">NORMALIZE</div>
+            <div class="node-count" id="pipeNormCount">1,190 Recs</div>
+            <div class="node-desc">Standard Schema</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node active-stage" id="node-match">
+            <div class="node-icon">⚡</div>
+            <div class="node-title">MATCH ENGINE</div>
+            <div class="node-count" id="pipeMatchCount">389 Auto</div>
+            <div class="node-desc">High-Conf Deterministic</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node" id="node-ai">
+            <div class="node-icon">🧠</div>
+            <div class="node-title">AI INVESTIGATOR</div>
+            <div class="node-count" id="pipeAiCount">111 Hard</div>
+            <div class="node-desc">Gemini / Offline Policy</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node" id="node-gate">
+            <div class="node-icon">🛡</div>
+            <div class="node-title">POLICY GATE</div>
+            <div class="node-count" id="pipeGateCount">0.93 Gate</div>
+            <div class="node-desc">Pydantic & Ownership</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node" id="node-review">
+            <div class="node-icon">👤</div>
+            <div class="node-title">HUMAN REVIEW</div>
+            <div class="node-count" id="pipeReviewCount">73 Cases</div>
+            <div class="node-desc">Operational Sign-off</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node success-stage" id="node-reconciled">
+            <div class="node-icon">✓</div>
+            <div class="node-title">RECONCILED</div>
+            <div class="node-count" id="pipeReconciledCount">389+ Reconciled</div>
+            <div class="node-desc">Audit Trail Logged</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visual Split: Deterministic vs AI Policy -->
+      <section class="panel split-panel">
+        <div class="ph">
+          <div>
+            <b>"AI is Only Used for Hard Cases"</b>
+            <small>ReconPilot does not send every transaction to an LLM. Obvious matches stay deterministic. AI is reserved for ambiguous cases.</small>
+          </div>
+          <div class="gate-tag">🛡 Gate Threshold: 0.93</div>
+        </div>
+        <div class="split-visual-grid">
+          <div class="split-card deterministic">
+            <div class="split-header">
+              <span class="badge good">DETERMINISTIC ENGINE</span>
+              <h3>389 Cases (77.8%)</h3>
+            </div>
+            <p>Resolved automatically using exact normalized invoice reference, exact amount, and settled line presence.</p>
+            <div class="split-stat">
+              <div>Confidence: <b>≥ 99.5%</b></div>
+              <div>LLM Token Cost: <b>$0.00</b></div>
+              <div>Processing Latency: <b>&lt; 25ms</b></div>
+            </div>
+          </div>
+
+          <div class="split-divider">
+            <div class="split-circle">500 INVOICES</div>
+            <div class="split-branches"></div>
+          </div>
+
+          <div class="split-card ai-investigator">
+            <div class="split-header">
+              <span class="badge warn">AI INVESTIGATOR (HARD CASES)</span>
+              <h3>111 Cases (22.2%)</h3>
+            </div>
+            <p>Invoked only when reference is missing, amount differs, or multiple competing payment candidates exist.</p>
+            <div class="ai-split-pills">
+              <div class="ai-pill match">
+                <strong>18</strong>
+                <span>AI Matches (Gated)</span>
+              </div>
+              <div class="ai-pill review">
+                <strong>28</strong>
+                <span>Review Advised</span>
+              </div>
+              <div class="ai-pill unresolved">
+                <strong>65</strong>
+                <span>Unresolved Kept</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pixel-Style Agent Activity Station & Activity Feeds -->
+      <div class="grid">
+        <section class="panel agent-station-panel">
+          <div class="ph">
+            <div>
+              <b>Agent Activity Station</b>
+              <small>Real-time autonomous roles operating on the finance queue</small>
+            </div>
+            <span class="agent-count-chip">6 Active Roles</span>
+          </div>
+          <div class="agent-office-stage">
+            <div class="agent-pod" id="pod-ingest">
+              <div class="pixel-avatar" data-role="ingest">📥</div>
+              <div class="pod-label">Ingestion Agent</div>
+              <div class="pod-state idle" id="state-ingest">IDLE</div>
+              <div class="pod-bubble" id="bubble-ingest">Monitoring feeds</div>
+            </div>
+            <div class="agent-pod" id="pod-normalize">
+              <div class="pixel-avatar" data-role="normalize">⚙</div>
+              <div class="pod-label">Normalize Agent</div>
+              <div class="pod-state idle" id="state-normalize">IDLE</div>
+              <div class="pod-bubble" id="bubble-normalize">Unified schema</div>
+            </div>
+            <div class="agent-pod" id="pod-match">
+              <div class="pixel-avatar" data-role="match">⚡</div>
+              <div class="pod-label">Match Engine</div>
+              <div class="pod-state completed" id="state-match">COMPLETED</div>
+              <div class="pod-bubble" id="bubble-match">389 exact matches</div>
+            </div>
+            <div class="agent-pod" id="pod-ai">
+              <div class="pixel-avatar" data-role="ai">🧠</div>
+              <div class="pod-label">AI Investigator</div>
+              <div class="pod-state working" id="state-ai">READY</div>
+              <div class="pod-bubble" id="bubble-ai">Gemini 2.5 Flash Lite</div>
+            </div>
+            <div class="agent-pod" id="pod-policy">
+              <div class="pixel-avatar" data-role="policy">🛡</div>
+              <div class="pod-label">Policy Guard</div>
+              <div class="pod-state blocked" id="state-policy">GUARDING</div>
+              <div class="pod-bubble" id="bubble-policy">Gate: 0.93 limit</div>
+            </div>
+            <div class="agent-pod" id="pod-human">
+              <div class="pixel-avatar" data-role="human">👤</div>
+              <div class="pod-label">Human Reviewer</div>
+              <div class="pod-state waiting" id="state-human">WAITING</div>
+              <div class="pod-bubble" id="bubble-human">73 open cases</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="ph">
+            <div>
+              <b>Source Coverage</b>
+              <small>1,190 Financial records in database</small>
+            </div>
+          </div>
+          <div id="sources" class="sources"></div>
+        </section>
+      </div>
+
+    </section>
+
+    <!-- VIEW 2: IMPORT SOURCES -->
+    <section id="import" class="view">
+      <section class="panel">
+        <div class="ph">
+          <div>
+            <b>Import Financial Sources</b>
+            <small>Drop your finance exports to inspect, normalize, and reconcile</small>
+          </div>
+          <button id="btnReloadDemoDataset" class="btn secondary sm">⚡ Reload Verified Demo Dataset</button>
+        </div>
+
+        <div class="import-content">
+          <!-- Drag & Drop Zone -->
+          <div id="dropzone" class="dropzone">
+            <div class="dz-icon">📂</div>
+            <h3>Drop your finance exports here</h3>
+            <p>Upload CSV or Excel exports from your ERP, CRM, Razorpay, or Bank</p>
+            <div class="dz-types">
+              <span class="chip">Invoices (.csv)</span>
+              <span class="chip">Payments (.csv)</span>
+              <span class="chip">Settlements (.csv)</span>
+              <span class="chip">Bank Statement (.csv)</span>
+            </div>
+            <input type="file" id="fileInput" accept=".csv,.json" multiple style="display:none;">
+            <button onclick="document.getElementById('fileInput').click()" class="btn primary sm" style="margin-top:14px;">Select Files</button>
+          </div>
+
+          <!-- 4 Supported Source Cards -->
+          <div class="source-cards-grid">
+            <div class="src-card" id="card-invoices">
+              <div class="src-header">
+                <span class="src-tag">MERCHANT</span>
+                <span class="src-count" id="cntInvoices">500 records</span>
+              </div>
+              <h4>invoices.csv</h4>
+              <p>Invoice ID, customer name, date, invoice amount, currency.</p>
+              <div class="src-status"><span class="badge good">PARSED</span> Unified receivable schema</div>
+            </div>
+
+            <div class="src-card" id="card-payments">
+              <div class="src-header">
+                <span class="src-tag">GATEWAY</span>
+                <span class="src-count" id="cntPayments">531 records</span>
+              </div>
+              <h4>payments.csv</h4>
+              <p>Payment ID, customer, amount, invoice reference, payment date.</p>
+              <div class="src-status"><span class="badge good">PARSED</span> Normalized credit records</div>
+            </div>
+
+            <div class="src-card" id="card-settlements">
+              <div class="src-header">
+                <span class="src-tag">RAZORPAY</span>
+                <span class="src-count" id="cntSettlements">78 batches</span>
+              </div>
+              <h4>settlements.csv</h4>
+              <p>Settlement ID, UTR reference, gross amount, fee, tax, net payout.</p>
+              <div class="src-status"><span class="badge good">PARSED</span> Linked to settlement lines</div>
+            </div>
+
+            <div class="src-card" id="card-bank">
+              <div class="src-header">
+                <span class="src-tag">BANK</span>
+                <span class="src-count" id="cntBank">81 txns</span>
+              </div>
+              <h4>bank_statement.csv</h4>
+              <p>Bank transaction ID, credit/debit, date, reference, description.</p>
+              <div class="src-status"><span class="badge good">PARSED</span> Matched on settlement UTR</div>
+            </div>
+          </div>
+
+          <!-- Normalization Stepper -->
+          <div class="stepper-box">
+            <b>Unified Ingestion Pipeline</b>
+            <div class="stepper">
+              <div class="step-item done"><div class="dot">✓</div><span>Step 1: Files Detected</span></div>
+              <div class="step-item done"><div class="dot">✓</div><span>Step 2: Schema Inspected</span></div>
+              <div class="step-item done"><div class="dot">✓</div><span>Step 3: Columns Mapped</span></div>
+              <div class="step-item done"><div class="dot">✓</div><span>Step 4: Records Normalized</span></div>
+              <div class="step-item active"><div class="dot">⚡</div><span>Step 5: Ready for Reconciliation</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- VIEW 3: RECONCILIATION CASES -->
+    <section id="reconciliation" class="view">
+      <div class="toolbar">
+        <div class="filters">
+          <button class="f active" data-status="">All Cases (500)</button>
+          <button class="f" data-status="RECONCILED">Reconciled (389)</button>
+          <button class="f" data-status="REVIEW">Needs Review (73)</button>
+          <button class="f" data-status="UNRESOLVED">Unresolved (38)</button>
+        </div>
+        <div class="search-box">
+          <input type="text" id="caseSearchInput" placeholder="Search invoice, payment or case ID…">
+        </div>
+      </div>
+      <section class="panel">
+        <div class="ph">
+          <div>
+            <b>Reconciliation Cases</b>
+            <small>Persistent decision records evaluated by the deterministic engine and AI controller</small>
+          </div>
+          <span id="caseCount" class="count">0</span>
+        </div>
+        <div id="cases" class="list"></div>
+      </section>
+    </section>
+
+    <!-- VIEW 4: EXCEPTIONS QUEUE -->
+    <section id="exceptions" class="view">
+      <div class="toolbar">
+        <div class="filters">
+          <button class="ef active" data-sev="">All Exceptions (111)</button>
+          <button class="ef" data-sev="HIGH">High Severity</button>
+          <button class="ef" data-sev="MEDIUM">Medium Severity</button>
+        </div>
+      </div>
+      <section class="panel">
+        <div class="ph">
+          <div>
+            <b>Exception Queue</b>
+            <small>Cases where evidence was insufficient or conflicting; never silently closed</small>
+          </div>
+          <span id="excCount" class="count">0</span>
+        </div>
+        <div id="excList" class="list"></div>
+      </section>
+    </section>
+
+    <!-- VIEW 5: HUMAN REVIEW QUEUE -->
+    <section id="review" class="view">
+      <div class="review-queue-header">
+        <div class="panel queue-stat-panel">
+          <div class="queue-stat">
+            <span class="q-label">OPEN FOR REVIEW</span>
+            <strong id="reviewOpenCount" class="q-val">73</strong>
+            <small class="muted">Cases requiring human authorization</small>
+          </div>
+          <div class="queue-note">
+            <b>Audited Governance Mode:</b> Every human approval or rejection is logged with actor metadata, timestamp, and reasoning.
+          </div>
+        </div>
+      </div>
+
+      <section class="panel">
+        <div class="ph">
+          <div>
+            <b>Review Candidates</b>
+            <small>Inspect ambiguous candidate evidence and click to approve or reject</small>
+          </div>
+          <span id="reviewQueueBadge" class="count warn">73</span>
+        </div>
+        <div id="reviewQueueList" class="list"></div>
+      </section>
+    </section>
+
+    <!-- VIEW 6: END-TO-END FINANCE CHAIN -->
+    <section id="chain" class="view">
+      <section class="panel">
+        <div class="ph">
+          <div>
+            <b>End-to-End Finance Chain</b>
+            <small>Trace any transaction across all 4 hops: Invoice → Payment → Razorpay Settlement → Bank Credit</small>
+          </div>
+          <div class="chain-case-picker">
+            <label>Select Case:</label>
+            <select id="chainCaseSelect">
+              <option value="CASE-42A2BBA8D9">INV-0229 · Review Case</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="chain-container" id="chainContainer">
+          <!-- Visual 4-Hop Chain Cards -->
+          <div class="chain-hops">
+            <div class="chain-hop-card" id="hopInvoice">
+              <div class="hop-badge">1. INVOICE</div>
+              <h3 id="hopInvAmount">₹42,800</h3>
+              <div class="hop-id" id="hopInvId">INV-0229</div>
+              <div class="hop-meta">
+                <div>Customer: <b id="hopInvCust">Acme Corp</b></div>
+                <div>Date: <span id="hopInvDate">2026-08-10</span></div>
+              </div>
+              <div class="hop-status"><span class="badge good">ISSUED</span></div>
+            </div>
+
+            <div class="chain-link-connector">
+              <div class="link-arrow">→</div>
+              <div class="link-text" id="linkReason1">Linked by Amount & Reference</div>
+            </div>
+
+            <div class="chain-hop-card" id="hopPayment">
+              <div class="hop-badge">2. PAYMENT</div>
+              <h3 id="hopPayAmount">₹42,800</h3>
+              <div class="hop-id" id="hopPayId">pay_000131</div>
+              <div class="hop-meta">
+                <div>Customer: <b id="hopPayCust">Acme Corp</b></div>
+                <div>Date: <span id="hopPayDate">2026-08-11</span></div>
+              </div>
+              <div class="hop-status"><span class="badge good">CAPTURED</span></div>
+            </div>
+
+            <div class="chain-link-connector">
+              <div class="link-arrow">→</div>
+              <div class="link-text" id="linkReason2">Matched in Settlement Batch</div>
+            </div>
+
+            <div class="chain-hop-card" id="hopSettlement">
+              <div class="hop-badge">3. SETTLEMENT</div>
+              <h3 id="hopSetNet">₹42,350</h3>
+              <div class="hop-id" id="hopSetId">set_000012</div>
+              <div class="hop-fees">
+                <div>Gross: <span id="hopSetGross">₹42,800</span></div>
+                <div>Fees: <span class="bad" id="hopSetFee">-₹381</span></div>
+                <div>Tax: <span class="bad" id="hopSetTax">-₹69</span></div>
+              </div>
+              <div class="hop-meta">
+                <div>UTR: <b id="hopSetUtr">UTR8829103</b></div>
+                <div>Date: <span id="hopSetDate">2026-08-12</span></div>
+              </div>
+              <div class="hop-status"><span class="badge good">SETTLED</span></div>
+            </div>
+
+            <div class="chain-link-connector">
+              <div class="link-arrow">→</div>
+              <div class="link-text" id="linkReason3">Matched by UTR & Net Credit</div>
+            </div>
+
+            <div class="chain-hop-card" id="hopBank">
+              <div class="hop-badge">4. BANK STATEMENT</div>
+              <h3 id="hopBankAmount">₹42,350</h3>
+              <div class="hop-id" id="hopBankId">bnk_000004</div>
+              <div class="hop-meta">
+                <div>Account Credit: <b>HDFC Bank</b></div>
+                <div>Ref: <span id="hopBankRef">UTR8829103</span></div>
+                <div>Date: <span id="hopBankDate">2026-08-13</span></div>
+              </div>
+              <div class="hop-status"><span class="badge good">CREDITED</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- VIEW 7: AUDIT TRAIL -->
+    <section id="audit" class="view">
+      <section class="panel">
+        <div class="ph">
+          <div>
+            <b>Audit Trail</b>
+            <small>Immutable chronological log of controller actions, AI recommendations, and reviewer resolutions</small>
+          </div>
+        </div>
+        <div id="auditList" class="audit"></div>
+      </section>
+    </section>
+
+    <!-- VIEW 8: BENCHMARK & POLICY -->
+    <section id="benchmark" class="view">
+      <div class="benchmark-header-grid">
+        <div class="panel bench-card highlight">
+          <span class="bench-label">HELD-OUT TEST SET ACCURACY</span>
+          <strong class="bench-val">96.61%</strong>
+          <small class="muted">Precision on 88 test cases (TP: 57, FP: 2)</small>
+        </div>
+        <div class="panel bench-card">
+          <span class="bench-label">TEST RECALL</span>
+          <strong class="bench-val">75.00%</strong>
+          <small class="muted">F1 Score: 84.44% (Calibrated 0.93)</small>
+        </div>
+        <div class="panel bench-card">
+          <span class="bench-label">ALL-DATA BENCHMARK</span>
+          <strong class="bench-val">95.90%</strong>
+          <small class="muted">Precision across 500 cases (F1: 89.15%)</small>
+        </div>
+      </div>
+
+      <section class="panel" style="margin-top:14px;">
+        <div class="ph">
+          <div>
+            <b>Model Performance & Controller Gate Integrity</b>
+            <small>Verified offline benchmark on held-out private ground truth</small>
+          </div>
+          <span class="badge good">Verified Phase 10</span>
+        </div>
+        <div class="bench-body">
+          <div class="bench-alert">
+            <b>Important Transparency Disclosure:</b>
+            These benchmark figures are evaluated strictly on the <i>deterministic offline investigator + calibrated controller gate</i> across 500 synthetic benchmark cases. They are explicitly <b>NOT</b> presented as live-LLM accuracy. Live Gemini 2.5/3.1 Flash Lite inference is available interactively for single-case deep dive below.
+          </div>
+
+          <table class="bench-table">
+            <thead>
+              <tr>
+                <th>Split</th>
+                <th>Cases</th>
+                <th>Ground Truth</th>
+                <th>True Positive (TP)</th>
+                <th>False Positive (FP)</th>
+                <th>False Negative (FN)</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1 Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Validation Set</b></td>
+                <td>103</td>
+                <td>99</td>
+                <td>82</td>
+                <td>2</td>
+                <td>15</td>
+                <td><b>97.62%</b></td>
+                <td>84.54%</td>
+                <td>90.61%</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><b>Held-out Test Set</b></td>
+                <td>88</td>
+                <td>78</td>
+                <td>57</td>
+                <td>2</td>
+                <td>19</td>
+                <td><b>96.61%</b></td>
+                <td>75.00%</td>
+                <td>84.44%</td>
+              </tr>
+              <tr>
+                <td><b>Full Benchmark (All)</b></td>
+                <td>500</td>
+                <td>465</td>
+                <td>374</td>
+                <td>16</td>
+                <td>75</td>
+                <td><b>95.90%</b></td>
+                <td>83.30%</td>
+                <td>89.15%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+  </main>
+</div>
+
+<!-- Slide-Out Case Detail & AI Policy Gate Drawer -->
+<div id="drawer" class="drawer hidden">
+  <div id="shade"></div>
+  <aside>
+    <div class="drawerTop">
+      <div>
+        <div class="eyebrow">CASE & POLICY INSPECTION</div>
+        <h2 id="dtitle">CASE-XXXX</h2>
+      </div>
+      <button id="close" class="btn-close" aria-label="Close drawer">×</button>
+    </div>
+    <div id="detail" class="drawer-body"></div>
+  </aside>
+</div>
+
+<script src="/web/app.js?v=3"></script>
+</body>
+</html>
