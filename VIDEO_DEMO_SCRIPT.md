@@ -1,246 +1,297 @@
-# 🎬 ReconPilot — 5-Minute Video Demo Script
+# ReconPilot — 5-Minute Video Demo Script
 
-> **Target audience:** Razorpay Buildathon judges
-> **Track:** 04 — AI Finance Controller
-> **Total runtime:** 5 minutes (300 seconds)
-> **Tone:** Confident, technical, story-driven. No filler. Every second counts.
+> **For:** Razorpay AI Buildathon 2026 — Track 04 — AI Finance Controller
+> **Total runtime:** 5:00 (300 seconds)
+> **Tone:** Confident, technical, story-driven. No filler.
+> **Key difference:** We start from EMPTY DB, ingest documents live, then reconcile.
 
 ---
 
-## ⏱️ Timeline Overview
+## Timeline Overview
 
-| Timestamp | Scene | Duration |
+| Time | Scene | Duration |
 |---|---|---|
-| 0:00 – 0:30 | Hook — The Pain | 30s |
-| 0:30 – 1:00 | One-Line Solution + Architecture | 30s |
-| 1:00 – 1:50 | Live Demo — Control Room | 50s |
-| 1:50 – 2:30 | Demo — Run the Reconciliation Stream | 40s |
-| 2:30 – 3:10 | Demo — Exception Queue + AI Investigation | 40s |
-| 3:10 – 3:40 | Demo — Finance Chain (Invoice → Bank) | 30s |
-| 3:40 – 4:10 | Demo — Human Review + Audit Trail | 30s |
-| 4:10 – 4:40 | Benchmark Numbers + Governance | 30s |
-| 4:40 – 5:00 | Closing Statement | 20s |
+| 0:00 - 0:20 | Hook: The Pain | 20s |
+| 0:20 - 0:45 | Show Empty Dashboard (Zero State) | 25s |
+| 0:45 - 1:30 | Delete Old Data + Batch Upload Documents | 45s |
+| 1:30 - 2:15 | Run Reconciliation (SSE Stream) | 45s |
+| 2:15 - 2:45 | Show Results — Dashboard Comes Alive | 30s |
+| 2:45 - 3:30 | Exception Queue + Live Gemini Investigation | 45s |
+| 3:30 - 3:55 | Finance Chain (Invoice -> Bank Trace) | 25s |
+| 3:55 - 4:20 | Human Review + Audit Trail | 25s |
+| 4:20 - 4:40 | Benchmark + AI Judgment | 20s |
+| 4:40 - 4:55 | What Broke at 2 AM | 15s |
+| 4:55 - 5:00 | Closing | 5s |
 
 ---
 
-## 🎙️ Scene 1 — Hook: The Pain (0:00 – 0:30)
-
-### What to show on screen:
-- Terminal. Run: `curl http://127.0.0.1:8000/api/v1/overview/merchant_demo`
-- Show the JSON response: `"financial_records": 1655, "reconciliation_cases": 1031, "exceptions": 111`
-
-### What to say:
-> "Every month-end, a merchant's finance team opens a spreadsheet.
-> Five hundred invoices. Five hundred thirty-one Razorpay payments.
-> Seventy-six settlements. Eighty-one bank credits.
-> And the question: which invoice matches which payment?
-> Which settlement actually landed in the bank?
-> This takes six hours, two analysts — and still has errors.
-> ReconPilot eliminates that. Completely."
-
----
-
-## 🎙️ Scene 2 — Solution + Architecture (0:30 – 1:00)
-
-### What to show on screen:
-- Browser: `http://127.0.0.1:8000` — Control Room landing page
-- Point at the KPI bar: 1,655 records, 1,031 cases, 111 exceptions
-
-### What to say:
-> "ReconPilot is a three-tier AI Finance Controller built on FastAPI, SQLite, and Google Gemini.
-> Tier One: deterministic SQL rules. Instant. Free. Handles seventy-seven percent of cases.
-> Tier Two: a calibrated confidence gate at zero-point-nine-three — tuned on a held-out validation split.
-> Tier Three: live Gemini AI — with Pydantic strict validation, a policy gate, and a full audit trail.
-> This is not a chatbot wrapper. This is production-grade governance."
-
----
-
-## 🎙️ Scene 3 — Live Demo: Control Room (1:00 – 1:50)
-
-### What to show on screen:
-- Scroll through the **Control Room** tab slowly
-- Point out the four pipeline nodes: Ingest → Match → AI Route → Resolve
-- Point out the case status cards: RECONCILED 389, REVIEW 73, UNRESOLVED 38
-
-### What to say:
-> "This is the Control Room. Every number you see is live — pulled from SQLite in real time.
-> Eighteen hundred fifty-five financial records across four sources: invoices, Razorpay payments, settlements, and bank statement.
-> Three hundred eighty-nine cases automatically reconciled — zero AI cost, under ten milliseconds.
-> Seventy-three in human review. Thirty-eight unresolved. One hundred eleven exceptions — the hard cases.
-> Nothing is hardcoded. Refresh the page and the numbers come from the database."
-
----
-
-## 🎙️ Scene 4 — Demo: Reconciliation Stream (1:50 – 2:30)
-
-### What to show on screen:
-- Click **"Run Demo"** button (or equivalent on the control room page)
-- Watch the SSE streaming animation play — 9 steps
-- Show steps flowing: Ingest → Normalize → Scan → Deterministic → AI Route → AI Investigate → Policy Gate → Human Queue → Complete
-
-### What to say:
-> "Watch the reconciliation cycle run live.
-> Step one: four financial sources detected.
-> Step two: one thousand one hundred ninety records normalized.
-> Step three: five hundred invoice cases scanned.
-> Step four: the deterministic engine resolves three hundred eighty-nine instantly.
-> Step five: one hundred eleven ambiguous cases routed to AI.
-> Step six: Gemini proposes matches, reviews, and unresolved cases.
-> Step seven: the policy gate runs — blocks anything under zero-point-nine-three confidence.
-> Step eight: seventy-three cases queued for human review.
-> This is real Server-Sent Events — not a fake animation."
-
----
-
-## 🎙️ Scene 5 — Demo: Exception Queue + AI Investigation (2:30 – 3:10)
-
-### What to show on screen:
-- Navigate to **Exception Queue** tab
-- Show the list: 111 exceptions with severity, case type, confidence, reason
-- Click on one exception to open the **Case Detail Drawer**
-- Click **"Investigate with Gemini"** button
-- Show the live AI response: decision, confidence, evidence bullets, risks
-
-### What to say:
-> "Here's the exception queue — one hundred eleven cases where evidence was insufficient or conflicting.
-> These were never silently closed. Every one is here, in the queue, waiting for action.
-> Let's click one. This is an invoice-to-payment case — amount matches, but the reference doesn't align.
-> I'll trigger a live Gemini investigation now.
-> [wait for response]
-> Gemini returns structured JSON: decision, confidence, evidence bullets, risk factors.
-> The output is validated by Pydantic with extra-equals-forbid — any hallucinated field fails hard.
-> The policy gate then checks that the selected payment ID is actually inside the evidence packet.
-> Three layers of governance before a single write touches the database."
-
----
-
-## 🎙️ Scene 6 — Demo: Finance Chain (3:10 – 3:40)
-
-### What to show on screen:
-- Navigate to **Finance Chain** tab or call: `curl http://127.0.0.1:8000/api/v1/chain/CASE-001`
-- Show the four-node chain: Invoice → Payment → Settlement → Bank
-- Highlight fee deduction: gross ₹42,800 → net ₹42,419 after Razorpay fees
-
-### What to say:
-> "One of the biggest reconciliation headaches: the settlement amount never equals the invoice amount.
-> Razorpay deducts fees and GST before crediting to the bank.
-> This is the Finance Chain view. One API call shows the complete money trail:
-> Invoice issued for forty-two thousand eight hundred rupees.
-> Payment captured at full amount.
-> Settlement batched — three hundred twelve rupees fee, sixty-nine rupees GST — net amount forty-two thousand four hundred nineteen rupees.
-> Bank credited with the UTR reference.
-> Fully traced. Fully auditable. No spreadsheet required."
-
----
-
-## 🎙️ Scene 7 — Demo: Human Review + Audit Trail (3:40 – 4:10)
-
-### What to show on screen:
-- Navigate to **Human Review** tab — show the 73 cases
-- Click one case. Show the **Resolve** action (Approve / Reject / Override with note)
-- Navigate to **Audit Trail** tab — show the immutable event log with actor, timestamp, AI model
-
-### What to say:
-> "Seventy-three cases need a human eye. Analyst opens a case, sees the AI recommendation and evidence, and can approve, reject, or override with a note.
-> Every action writes an immutable audit event — who acted, what AI model was used, what confidence score triggered the routing.
-> This is the Human-in-the-Loop that Problem Statement Four asks for.
-> Not just a queue — a full governance record that would satisfy a financial regulator."
-
----
-
-## 🎙️ Scene 8 — Benchmark Numbers + Governance (4:10 – 4:40)
-
-### What to show on screen:
-- Navigate to **Benchmark & Policy** tab
-- Show the three-tier architecture table
-- Highlight: Tier 1 Precision 100%, Tier 2 Precision 96.61%, F1 84.44% on held-out test split
-
-### What to say:
-> "Let's talk numbers. On the held-out test split — eighty-eight cases the model never saw during calibration —
-> precision is ninety-six-point-six percent. F1 is eighty-four-point-four.
-> Tier One handles seventy-seven-point-eight percent of cases at one hundred percent precision and zero cost.
-> Tier Three — Gemini — operates within the free tier: fourteen-point-two-eight requests per minute, four-hundred-seventy requests per day safe cap.
-> Each investigation costs roughly zero-point-zero-zero-zero-one-six-five US dollars.
-> Total cost for all one hundred eleven exceptions: under two cents.
-> The ground truth file was never passed to the model, never shown in the UI, and the test split was never used for threshold tuning.
-> These numbers are real."
-
----
-
-## 🎙️ Scene 9 — Closing Statement (4:40 – 5:00)
-
-### What to show on screen:
-- Return to Control Room homepage
-- Run in terminal: `pytest -q` → show `10 passed`
-
-### What to say:
-> "ReconPilot is a production-grade AI Finance Controller — not a demo stub.
-> Real Razorpay API integration. Real Gemini AI. Real governance.
-> Ten tests passing. Seventeen REST endpoints. One control room.
-> Track Four. Problem Statement Four. ReconPilot."
-
----
-
-## 🎯 Key Talking Points — Cheat Sheet
-
-If you need to trim, cut in this priority order (lowest impact first):
-1. Finance Chain scene (3:10–3:40) → just mention it exists, don't demo
-2. Audit Trail (3:40–4:10) → skip the resolve action, just show the log
-3. Benchmark scene → reduce to 20 seconds, key numbers only
-
-**Never cut:**
-- The SSE demo stream (shows real-time, not fake)
-- The Gemini investigation + Pydantic governance (core PS4 requirement)
-- The 10 tests passing (verifiability requirement)
-
----
-
-## 🔴 Things to Emphasize for Judges
-
-| Talking Point | Why It Matters |
-|---|---|
-| "Not hardcoded — live SQLite" | Proves data integrity |
-| "Pydantic extra='forbid'" | Shows AI hallucination guard |
-| "Policy gate checks evidence packet ownership" | Shows safety beyond Pydantic |
-| "Ground truth never seen by the model" | Shows evaluation integrity |
-| "14.28 RPM — under the 15 RPM free tier limit" | Shows rate compliance |
-| "10 tests passing" | Shows code quality |
-| "HMAC-SHA256 webhook verification" | Shows Razorpay integration depth |
-| "Human-in-the-Loop queue" | Directly addresses PS4 |
-
----
-
-## 🛑 Common Demo Mistakes — Avoid These
-
-1. **Don't start with setup** — server should already be running before you hit record
-2. **Don't skip the exception count** — 111 is the star number, tie it to the AI routing
-3. **Don't say "this would" or "in production it would"** — the demo IS production-grade
-4. **Don't rush the Gemini investigation** — let it load live, the latency proves it's real
-5. **Don't forget to say "held-out test split"** — judges will dock points for benchmark contamination if not mentioned
-
----
-
-## 🎬 Pre-Recording Checklist
+## Pre-Recording Checklist
 
 ```bash
 # 1. Server running
 uvicorn api.app:app --reload --port 8000
 
-# 2. Verify DB state
-curl http://127.0.0.1:8000/api/v1/overview/merchant_demo
-# expect: financial_records=1655, reconciliation_cases=1031, exceptions=111
+# 2. IMPORTANT: Delete all documents before recording so DB is empty
+#    Do this from the UI "Update DB" button, or:
+curl -X POST http://127.0.0.1:8000/api/v1/db/delete-documents \
+  -H "Content-Type: application/json" \
+  -d '{"source_types": ["invoice", "payment", "settlement", "bank"]}'
 
-# 3. Verify AI key works
+# 3. Verify DB is empty
+curl http://127.0.0.1:8000/api/v1/overview/merchant_demo
+# expect: financial_records=0, reconciliation_cases=0, exceptions=0
+
+# 4. AI key working
 curl http://127.0.0.1:8000/api/v1/ai/status
 # expect: has_key=true
 
-# 4. Run tests one last time
+# 5. Tests pass
 pytest -q
 # expect: 10 passed
 
-# 5. Open browser to http://127.0.0.1:8000 — Control Room ready
+# 6. Keep these CSV files ready to upload:
+#    data/invoices.csv (500 rows)
+#    data/payments.csv (531 rows)
+#    data/settlements.csv (76 rows)
+#    data/settlement_lines.csv (543 rows)
+#    data/bank_statement.csv (81 rows)
+
+# 7. Browser open to http://127.0.0.1:8000 — Control Room tab active
 ```
 
 ---
 
-*ReconPilot · Razorpay AI Buildathon 2025 · Track 04 · Problem Statement 4*
+## Scene 1 — Hook: The Pain (0:00 - 0:20)
+
+### Show on screen:
+- Your face / screen recording intro
+- Then switch to the browser showing ReconPilot Control Room
+
+### Say:
+> "It's month-end. Finance team has five hundred invoices, Razorpay payment data,
+> settlement reports, and a bank statement. They need to match everything.
+> Today that takes six hours, two analysts, and still has errors.
+> ReconPilot does it in under two minutes. Let me show you — from scratch."
+
+---
+
+## Scene 2 — Show Empty Dashboard (0:20 - 0:45)
+
+### Show on screen:
+- Control Room dashboard showing **all zeros**
+- Point at the KPI bar: 0 records, 0 cases, 0 exceptions
+- The dashboard is empty — no data loaded
+
+### Say:
+> "Right now the database is completely empty. Zero records. Zero cases. Zero exceptions.
+> No data has been loaded. This is a clean slate.
+> I'm going to ingest real financial documents, run the reconciliation engine,
+> and show you every result — live."
+
+---
+
+## Scene 3 — Delete Old Data + Batch Upload Documents (0:45 - 1:30)
+
+### Show on screen:
+- Click the **"Update DB"** button in the UI
+- Show the delete modal — click "Delete All" to clear any remaining data
+- Then click **"Upload Documents"** or use the batch upload feature
+- Select ALL 4 CSV files: invoices.csv, payments.csv, settlements.csv + settlement_lines.csv, bank_statement.csv
+- Show the upload progress
+- After upload completes, dashboard numbers update live
+
+### Say:
+> "First, let me clear any existing data. Delete all — invoices, payments, settlements, bank.
+> Database is clean.
+> Now I'll upload the financial documents. These are four CSV files —
+> five hundred invoices from the merchant's ERP,
+> five hundred thirty-one payments from Razorpay,
+> seventy-six settlement headers with five hundred forty-three per-payment settlement lines,
+> and eighty-one bank statement entries.
+> [PAUSE while upload completes]
+> Upload complete. Watch the dashboard — the numbers just appeared.
+> One thousand six hundred fifty-five financial records ingested and normalized.
+> But nothing is reconciled yet. Let me run the engine."
+
+---
+
+## Scene 4 — Run Reconciliation (SSE Stream) (1:30 - 2:15)
+
+### Show on screen:
+- Click **"Run Demo"** button on Control Room
+- Watch the SSE streaming animation — 9 steps flowing live
+- Each step appears in real time
+
+### Say:
+> "Watch the reconciliation cycle run live.
+> Step one: four financial sources detected — invoices, payments, settlements, bank.
+> Step two: one thousand one hundred ninety records normalized into a unified schema.
+> Step three: five hundred invoice cases scanned.
+> Step four: the deterministic engine fires — it matches by reference, amount, customer, and date.
+> Three hundred eighty-nine invoices reconciled instantly. Zero AI cost. Under ten milliseconds.
+> Step five: one hundred eleven ambiguous cases — where references don't match cleanly —
+> routed to the AI investigator.
+> Step six: Gemini processes each one with structured JSON output.
+> Step seven: the policy gate runs — blocks anything under zero-point-nine-three confidence.
+> Step eight: seventy-three cases queued for human review.
+> Step nine: cycle complete. Let me show you the results."
+
+---
+
+## Scene 5 — Dashboard Comes Alive (2:15 - 2:45)
+
+### Show on screen:
+- Scroll through the Control Room — all numbers are now populated
+- Point at the status cards: RECONCILED 389, REVIEW 73, UNRESOLVED 38
+- Point at the pipeline visualization
+
+### Say:
+> "Two minutes ago this dashboard was empty. Now look at it.
+> Three hundred eighty-nine invoices auto-reconciled — tier one, deterministic, no AI.
+> Seventy-three in human review — the AI found matches but confidence wasn't high enough for auto-approval.
+> Thirty-eight truly unresolved — no payment exists for these invoices.
+> One hundred eleven exceptions — every ambiguous case is here, none silently closed.
+> Every number is a live database query. Refresh the page — it stays the same."
+
+---
+
+## Scene 6 — Exception Queue + Live Gemini Investigation (2:45 - 3:30)
+
+### Show on screen:
+- Click **Exception Queue** tab
+- Show the 111 exceptions with severity, case type, confidence, reason
+- Click one exception to open the Case Detail drawer
+- Click **"Investigate with Gemini"** button
+- WAIT for the live response (let the 1-2 second latency show — proves it's real)
+
+### Say:
+> "The problem statement asks for an honest exception list. Here are all one hundred eleven.
+> Each one has severity, reason, and the case type.
+> Let me click one. This invoice had an amount match but the reference didn't align.
+> I'll trigger a live Gemini investigation.
+> [PAUSE — let it load]
+> The AI returns structured JSON: decision, confidence, evidence bullets, risk factors.
+> But before this touches the database, it passes through three gates.
+> Gate one: Gemini's native JSON schema — enforces field types and enums.
+> Gate two: Pydantic with extra-equals-forbid — any hallucinated field gets rejected.
+> Gate three: the business policy gate — checks that the selected payment ID
+> actually exists in the evidence packet. Not just valid JSON — valid finance logic.
+> Three layers of governance before a single write."
+
+---
+
+## Scene 7 — Finance Chain (3:30 - 3:55)
+
+### Show on screen:
+- Navigate to **Finance Chain** tab
+- Show the four-node chain: Invoice -> Payment -> Settlement -> Bank
+- Highlight the fee deduction math
+
+### Say:
+> "The hardest reconciliation problem: the settlement amount never equals the invoice.
+> Razorpay deducts fees and GST before crediting the bank.
+> Finance Chain shows the full money trail:
+> Invoice forty-two thousand eight hundred. Payment captured at full amount.
+> Settlement: fee deducted, GST deducted, net forty-two thousand four hundred nineteen.
+> Bank credited with UTR reference. End-to-end — one API call."
+
+---
+
+## Scene 8 — Human Review + Audit Trail (3:55 - 4:20)
+
+### Show on screen:
+- Click **Human Review** tab — show 73 cases
+- Click one case, show the Approve / Reject / Override buttons
+- Click **Audit Trail** tab — show the immutable log
+
+### Say:
+> "Seventy-three cases need a human. Analyst sees the AI recommendation, evidence, and risks.
+> They can approve, reject, or override with a note.
+> Every action writes an immutable audit event — who acted, which AI model,
+> what confidence triggered the routing.
+> This is governance. Not just a queue — a full audit trail for regulators."
+
+---
+
+## Scene 9 — Benchmark + AI Judgment (4:20 - 4:40)
+
+### Show on screen:
+- Click **Benchmark & Policy** tab
+- Point at precision 96.61%, F1 84.44%
+
+### Say:
+> "On the held-out test split — eighty-eight cases the model never saw during calibration —
+> precision ninety-six-point-six percent. F1 eighty-four-point-four.
+> The threshold was calibrated on a separate validation split. Test data was never used for tuning.
+> AI Judgment: tier one handles seventy-seven percent of cases deterministically at zero cost.
+> We don't force AI where rules work better. Total Gemini cost for all exceptions: under two cents."
+
+---
+
+## Scene 10 — What Broke at 2 AM (4:40 - 4:55)
+
+### Show on screen:
+- Split screen showing code or just speak to camera
+
+### Say:
+> "What broke? Three things.
+> The exception queue showed zero instead of one-eleven — a silent JavaScript scope bug.
+> The exception count inflated to six hundred forty-two — stage ordering, settlement recon ran
+> before data loaded.
+> And Gemini rate-limited at fifteen RPM on free tier — fixed with a four-point-two second pacer
+> and a model fallback chain.
+> Every one of these is a real failure we diagnosed and fixed."
+
+---
+
+## Scene 11 — Closing (4:55 - 5:00)
+
+### Show on screen:
+- Terminal: `pytest -q` -> 10 passed
+- Return to Control Room
+
+### Say:
+> "ReconPilot. From empty database to fully reconciled — in under two minutes.
+> Five hundred invoices. One hundred eleven exceptions. Honestly reported.
+> Track Four. AI Finance Controller. Thank you."
+
+---
+
+## Key Moments That Win Points
+
+| Moment | Why It Matters |
+|---|---|
+| Empty dashboard -> populated dashboard | Proves data isn't hardcoded, shows the full lifecycle |
+| Batch upload of 4 CSVs | Shows document ingestion capability |
+| SSE stream with 9 steps | Proves real-time processing, not a static page |
+| Gemini investigation with visible latency | Proves live AI, not cached |
+| "Pydantic extra equals forbid" | Hallucination guard — judges love this |
+| "Held-out test split, never used for tuning" | Evaluation integrity |
+| "AI only for 22% of cases" | AI Judgment parameter |
+| "Honest exception list" | Directly quotes PS-4 bar |
+
+---
+
+## What NOT to Do
+
+1. **Don't start with data already loaded** — the empty-to-full transition IS the demo
+2. **Don't say "in production it would"** — this IS production-grade
+3. **Don't rush the Gemini investigation** — let the latency prove it's real
+4. **Don't skip the exception count** — 111 is the star number
+5. **Don't forget "held-out test split"** — judges dock for benchmark contamination
+6. **Don't read from a script** — know your numbers cold
+
+---
+
+## If You Need to Trim (Cut Order)
+
+Cut these first (lowest impact):
+1. Finance Chain (Scene 7) — just mention "we have an endpoint for it"
+2. Human Review detail (Scene 8) — show the queue, skip the resolve action
+3. Benchmark (Scene 9) — reduce to 10 seconds, two numbers only
+
+**NEVER cut:**
+- Empty dashboard -> upload -> reconcile flow (this IS the demo)
+- Exception queue + Gemini investigation (core PS-4 requirement)
+- "What broke" (mandatory evaluation parameter)
+- The closing "honest exception list" line
