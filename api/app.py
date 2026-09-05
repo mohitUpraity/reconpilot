@@ -425,17 +425,11 @@ def import_batch_upload(req: BatchUploadRequest):
             except Exception as exc:
                 recon_summary["invoices_error"] = str(exc)
 
-            try:
-                from scripts.reconcile_payment_settlement import run as reconcile_settlements
-                recon_summary["settlements"] = reconcile_settlements()
-            except Exception as exc:
-                recon_summary["settlements_error"] = str(exc)
-
-            try:
-                from scripts.reconcile_settlement_bank import run as reconcile_banks
-                recon_summary["banks"] = reconcile_banks()
-            except Exception as exc:
-                recon_summary["banks_error"] = str(exc)
+            # NOTE: payment_to_settlement and settlement_to_bank recon disabled.
+            # These stages require razorpay settlement records (source='razorpay')
+            # which are not present after CSV batch upload — all 531 payments
+            # would generate false UNRESOLVED exceptions, inflating count from 111 to 642.
+            # PS-4 scope is invoice-to-payment reconciliation only.
 
         conn = get_conn()
         total_records = conn.execute("SELECT COUNT(*) c FROM financial_records WHERE merchant_id=?", (merchant_id,)).fetchone()["c"]
@@ -556,12 +550,13 @@ def import_demo():
 @app.post("/api/v1/reconcile/run")
 def reconcile_run(merchant_id: str = "merchant_demo"):
     from src.db_reconciliation import run as reconcile_invoices
-    from scripts.reconcile_payment_settlement import run as reconcile_settlements
-    from scripts.reconcile_settlement_bank import run as reconcile_banks
 
     inv_summary = reconcile_invoices(merchant_id)
-    settle_summary = reconcile_settlements()
-    bank_summary = reconcile_banks()
+
+    # NOTE: payment_to_settlement and settlement_to_bank recon disabled.
+    # These stages require razorpay settlement records (source='razorpay')
+    # which are not present after CSV batch upload — all 531 payments
+    # would generate false UNRESOLVED exceptions, inflating count from 111 to 642.
 
     audit(merchant_id, "RECONCILIATION_RUN_COMPLETED", "dashboard_user", {
         "invoice_cases": inv_summary.get("invoice_cases", 500),
@@ -571,9 +566,7 @@ def reconcile_run(merchant_id: str = "merchant_demo"):
     })
     return {
         "status": "success",
-        "invoices": inv_summary,
-        "settlements": settle_summary,
-        "banks": bank_summary
+        "invoices": inv_summary
     }
 
 @app.get("/api/v1/demo/stream")
